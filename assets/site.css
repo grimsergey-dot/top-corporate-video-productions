@@ -460,3 +460,4 @@ img,svg,video,iframe{max-width:100%}
 @media (max-width:1180px){.sc-exl{grid-template-columns:1fr 1fr}}
 @media (max-width:720px){.sc-exl{grid-template-columns:1fr}.sc-t .sticky1{width:150px;min-width:150px}.sc-t td.sticky1 a{white-space:normal}.sc-wrap{max-height:none}}
 .fullscores{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:28px;padding:22px 26px;background:#fff;border-radius:22px;font-size:15px;color:#3D2C6B}
+.pc-v{font:600 46px 'Unbounded',sans-serif;letter-spacing:-.03em;line-height:1.05}
