@@ -17,9 +17,10 @@
 <body>
 <div class="page">
 
-<svg class="bgline" aria-hidden="true" viewBox="0 0 1440 9800" preserveAspectRatio="none">
-  <path d="M1180 120 C 1420 420, 1300 760, 980 900 S 260 1050, 160 1500 S 420 2300, 1300 2500 S 1380 3300, 700 3600 S 40 4200, 260 4700 S 1200 5200, 1320 5700 S 900 6500, 300 6800 S 80 7600, 720 7900 S 1400 8500, 1200 9100 S 400 9500, 120 9750" fill="none" stroke="#CDBFFF" stroke-width="2"></path>
-  <path id="scrollline" d="M1180 120 C 1420 420, 1300 760, 980 900 S 260 1050, 160 1500 S 420 2300, 1300 2500 S 1380 3300, 700 3600 S 40 4200, 260 4700 S 1200 5200, 1320 5700 S 900 6500, 300 6800 S 80 7600, 720 7900 S 1400 8500, 1200 9100 S 400 9500, 120 9750" fill="none" stroke="#5B3BEB" stroke-width="3" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="0.88"></path>
+<svg id="ribbon" aria-hidden="true" preserveAspectRatio="none">
+  <defs><linearGradient id="rg" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#7A5CFF"/><stop offset=".45" stop-color="#4B2AD8"/><stop offset="1" stop-color="#9B85FF"/></linearGradient></defs>
+  <path id="ribbon-base" fill="none" stroke="#E2DAFF" stroke-width="2" stroke-dasharray="2 10" stroke-linecap="round"></path>
+  <path id="ribbon-path" fill="none" stroke="url(#rg)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"></path>
 </svg>
 
 <div class="wrap">
@@ -47,24 +48,8 @@
     </div>
   </div>
   <div class="hero-art" aria-hidden="true">
-    <div class="glowball glow"></div>
-    <div class="emerge" style="position:relative"><div class="floaty"><div id="crystal">
-      <svg width="440" height="520" viewBox="0 0 440 520">
-        <defs>
-          <linearGradient id="fa" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EDE7FF"></stop><stop offset="1" stop-color="#9B85FF"></stop></linearGradient>
-          <linearGradient id="fb" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7A5CFF"></stop><stop offset="1" stop-color="#2B1078"></stop></linearGradient>
-          <linearGradient id="fc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9BBFF"></stop><stop offset="1" stop-color="#5B3BEB"></stop></linearGradient>
-          <linearGradient id="fd" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#1C0A45"></stop><stop offset="1" stop-color="#4B2AD8"></stop></linearGradient>
-        </defs>
-        <polygon points="220,20 380,140 220,200" fill="url(#fa)"></polygon><polygon points="220,20 60,140 220,200" fill="url(#fc)"></polygon>
-        <polygon points="60,140 220,200 120,380" fill="url(#fb)"></polygon><polygon points="380,140 220,200 320,380" fill="url(#fa)" opacity="0.92"></polygon>
-        <polygon points="220,200 120,380 220,500" fill="url(#fd)"></polygon><polygon points="220,200 320,380 220,500" fill="url(#fb)"></polygon>
-        <polygon points="186,250 268,300 186,350" fill="#F5F2FF" opacity="0.92"></polygon>
-        <polyline points="220,20 220,200 220,500" fill="none" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="1.5"></polyline>
-        <polyline points="60,140 220,200 380,140" fill="none" stroke="#FFFFFF" stroke-opacity="0.5" stroke-width="1.5"></polyline>
-      </svg>
-    </div></div></div>
-    <div style="position:absolute;bottom:36px;left:50%;transform:translateX(-50%)"><span class="chip chip-dark">#1 Digital Brew · 92.3</span></div>
+    <div id="hero3d"></div>
+    <div class="hero-badge"><span class="chip chip-dark">#1 Digital Brew · 92.3</span></div>
   </div>
 </section>
 
@@ -78,10 +63,11 @@
 <section id="shortlist">
   <div class="shead">
     <div><div class="chip eyebrow">The ranking</div><h2 class="disp" style="margin:0;font-size:56px;line-height:1.05;font-weight:600">The Top 20</h2></div>
-    <p>Scores out of 100. Open a studio for clients, reviews and pricing. Ranks 15–20 are within one point of each other.</p>
+    <p>Scores out of 100. Click a cover to play the studio’s reel; open Details for clients, results, reviews and pricing.</p>
   </div>
   
-  <article class="feat">
+<article class="feat-wrap rv">
+  <div class="feat">
     <div>
       <div style="display:flex;align-items:baseline;gap:22px">
         <span class="feat-n disp">1</span>
@@ -92,17 +78,32 @@
       <div class="scoreline">
         <div><div class="score-n disp">92.3</div><div class="score-l">score / 100</div></div>
         <div class="bar"><i style="width:92.3%"></i></div>
-        <button type="button" class="btn btn-ghost btn-sm" data-open="0">Details</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-details aria-expanded="false" aria-controls="d-digitalbrew-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
     </div>
-    <a class="reel" href="https://digitalbrew.com" target="_blank" rel="noopener nofollow" aria-label="See Digital Brew work on the studio site">
-      <svg aria-hidden="true" viewBox="0 0 640 360" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><path d="M0 260 C 160 200, 300 330, 640 220 L 640 360 L 0 360 Z" fill="#2E1677"></path><path d="M0 300 C 200 250, 380 360, 640 290 L 640 360 L 0 360 Z" fill="#3E21A8"></path><circle cx="520" cy="90" r="120" fill="#5B3BEB" opacity="0.35"></circle></svg>
-      <span class="reel-t">Showreel · Digital Brew</span><span class="reel-b">Watch on the studio's site ↗</span>
-      <span class="playbtn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg>Play</span>
-    </a>
-  </article>
+    
+<a class="reel" href="https://vimeo.com/1201593902" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/1201593902?autoplay=1" data-title="Digital Brew showreel" aria-label="Play Digital Brew showreel">
+  <img src="https://i.vimeocdn.com/video/2208253532-e36ec2a4ba2877e133901b8bc34b82a5f82a277739c30ae5949673b0ad624e6e-d_1280?region=us" alt="Digital Brew showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  <span class="reel-t">Showreel · Digital Brew</span><span class="reel-b">Digital Brew REEL 2026</span>
+  <span class="playstatic"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></span>
+</a>
+
+  </div>
   
-  <article class="feat">
+<div class="dpanel" id="d-digitalbrew-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">92.3</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Orlando, FL · Full-service + AI</div><p>Orlando studio founded in 2011 by animator Michael Cardwell. 2D/3D explainers, live-action brand and product-launch videos for SaaS, healthcare, industrial and financial companies. The most active studio we measured: 58 client videos published in the last 12 months.</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Cisco · Wolters Kluwer · Kyocera · Bentley Systems · AdventHealth · AMN Healthcare</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>Constellation raised $32.5M against a $27M goal after its explainer launched; client survey: 75% report increased sales</p><p style="color:#CFC4FF;font-size:13px">58 client works in 12 months · Google 5.0 (57) · Clutch 4.9 (18) · 3 awards 2024–26</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>11 Telly Awards in 2024–2026</p><p style="color:#CFC4FF">Google 5.0 (57) · Clutch 4.9 (18)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">Explainer videos from $8,000</p><a class="btn btn-dark btn-sm" href="https://digitalbrew.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</article>
+
+<article class="feat-wrap rv">
+  <div class="feat">
     <div>
       <div style="display:flex;align-items:baseline;gap:22px">
         <span class="feat-n disp">2</span>
@@ -113,17 +114,32 @@
       <div class="scoreline">
         <div><div class="score-n disp">84.5</div><div class="score-l">score / 100</div></div>
         <div class="bar"><i style="width:84.5%"></i></div>
-        <button type="button" class="btn btn-ghost btn-sm" data-open="1">Details</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-details aria-expanded="false" aria-controls="d-levitatemedia-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
     </div>
-    <a class="reel" href="https://levitatemedia.com" target="_blank" rel="noopener nofollow" aria-label="See Levitate Media work on the studio site">
-      <svg aria-hidden="true" viewBox="0 0 640 360" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><path d="M0 260 C 160 200, 300 330, 640 220 L 640 360 L 0 360 Z" fill="#2E1677"></path><path d="M0 300 C 200 250, 380 360, 640 290 L 640 360 L 0 360 Z" fill="#3E21A8"></path><circle cx="520" cy="90" r="120" fill="#5B3BEB" opacity="0.35"></circle></svg>
-      <span class="reel-t">Showreel · Levitate Media</span><span class="reel-b">Watch on the studio's site ↗</span>
-      <span class="playbtn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg>Play</span>
-    </a>
-  </article>
+    
+<a class="reel" href="https://www.youtube.com/watch?v=G04w64pTjdY" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://www.youtube-nocookie.com/embed/G04w64pTjdY?autoplay=1&amp;rel=0&amp;modestbranding=1" data-title="Levitate Media showreel" aria-label="Play Levitate Media showreel">
+  <img src="https://i.ytimg.com/vi/G04w64pTjdY/maxresdefault.jpg" alt="Levitate Media showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  <span class="reel-t">Showreel · Levitate Media</span><span class="reel-b">Levitate Demo Reel</span>
+  <span class="playstatic"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></span>
+</a>
+
+  </div>
   
-  <article class="feat">
+<div class="dpanel" id="d-levitatemedia-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">84.5</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Alpharetta, GA · Live action + AI</div><p>Alpharetta (Atlanta) studio founded in 2009. Live action, 2D/3D animation and AI-assisted production for tech, industrial, healthcare and financial brands, with localization for global rollouts. 30 client videos published in the last 12 months.</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Caterpillar · Holcim · Amcor · Oncor · Teladoc Health · SquareTrade (Allstate)</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>SquareTrade Samsung S25 drop test: 143K+ YouTube views and coverage by 9 outlets on day one</p><p style="color:#CFC4FF;font-size:13px">30 client works in 12 months · Google 4.5 (48) · Clutch 4.8 (92) · 6 awards 2024–26</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>6 Telly Awards in 2024–2025</p><p style="color:#CFC4FF">Clutch 4.8 (92) · Google 4.5 (48)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">Most projects $5,000–$25,000</p><a class="btn btn-dark btn-sm" href="https://levitatemedia.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</article>
+
+<article class="feat-wrap rv">
+  <div class="feat">
     <div>
       <div style="display:flex;align-items:baseline;gap:22px">
         <span class="feat-n disp">3</span>
@@ -134,17 +150,32 @@
       <div class="scoreline">
         <div><div class="score-n disp">83.4</div><div class="score-l">score / 100</div></div>
         <div class="bar"><i style="width:83.4%"></i></div>
-        <button type="button" class="btn btn-ghost btn-sm" data-open="2">Details</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-details aria-expanded="false" aria-controls="d-lavamedia-us"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
     </div>
-    <a class="reel" href="https://lavamedia.us" target="_blank" rel="noopener nofollow" aria-label="See Lava Media work on the studio site">
-      <svg aria-hidden="true" viewBox="0 0 640 360" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><path d="M0 260 C 160 200, 300 330, 640 220 L 640 360 L 0 360 Z" fill="#2E1677"></path><path d="M0 300 C 200 250, 380 360, 640 290 L 640 360 L 0 360 Z" fill="#3E21A8"></path><circle cx="520" cy="90" r="120" fill="#5B3BEB" opacity="0.35"></circle></svg>
-      <span class="reel-t">Showreel · Lava Media</span><span class="reel-b">Watch on the studio's site ↗</span>
-      <span class="playbtn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg>Play</span>
-    </a>
-  </article>
+    
+<a class="reel" href="https://www.youtube.com/watch?v=5O8kGh_GEDM" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://www.youtube-nocookie.com/embed/5O8kGh_GEDM?autoplay=1&amp;rel=0&amp;modestbranding=1" data-title="Lava Media showreel" aria-label="Play Lava Media showreel">
+  <img src="https://i.ytimg.com/vi/5O8kGh_GEDM/maxresdefault.jpg" alt="Lava Media showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  <span class="reel-t">Showreel · Lava Media</span><span class="reel-b">LAVA MEDIA SHOWREEL | We create and promote video content</span>
+  <span class="playstatic"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></span>
+</a>
+
+  </div>
   
-  <article class="feat">
+<div class="dpanel" id="d-lavamedia-us">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">83.4</div><div style="font-size:13px;color:#CFC4FF">score / 100 · San Diego, CA · Full-service + AI</div><p>San Diego–headquartered studio founded in 2013, with post-production in Istanbul. Corporate and brand films, 2D/3D explainers, 3D product and medical-device animation, AI video and training content. 15 client works published in the last 12 months.</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">3M · Roche / Accu-Chek · Fresenius Kabi · Coty (Rimmel, Bourjois) · Vivo · TechnoNICOL</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>Meizu market share grew from 0 to 4% over a multi-year video partnership</p><p style="color:#CFC4FF;font-size:13px">15 client works in 12 months · Clutch 5.0 (3)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>Ratings of Runet 2025: #10 video production studios (Moscow); 2026: #21 creative agencies</p><p style="color:#CFC4FF">Clutch 5.0 (3) · Trustpilot 4.0 (4)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">AI videos from $2,800 · animated explainers from $9,000 · live action + CG from $13,900</p><a class="btn btn-dark btn-sm" href="https://lavamedia.us" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</article>
+
+<article class="feat-wrap rv">
+  <div class="feat">
     <div>
       <div style="display:flex;align-items:baseline;gap:22px">
         <span class="feat-n disp">4</span>
@@ -155,17 +186,32 @@
       <div class="scoreline">
         <div><div class="score-n disp">83.3</div><div class="score-l">score / 100</div></div>
         <div class="bar"><i style="width:83.3%"></i></div>
-        <button type="button" class="btn btn-ghost btn-sm" data-open="3">Details</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-details aria-expanded="false" aria-controls="d-gisteo-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
     </div>
-    <a class="reel" href="https://gisteo.com" target="_blank" rel="noopener nofollow" aria-label="See Gisteo work on the studio site">
-      <svg aria-hidden="true" viewBox="0 0 640 360" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><path d="M0 260 C 160 200, 300 330, 640 220 L 640 360 L 0 360 Z" fill="#2E1677"></path><path d="M0 300 C 200 250, 380 360, 640 290 L 640 360 L 0 360 Z" fill="#3E21A8"></path><circle cx="520" cy="90" r="120" fill="#5B3BEB" opacity="0.35"></circle></svg>
-      <span class="reel-t">Showreel · Gisteo</span><span class="reel-b">Watch on the studio's site ↗</span>
-      <span class="playbtn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg>Play</span>
-    </a>
-  </article>
+    
+<a class="reel" href="https://vimeo.com/1246324262" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/1246324262?autoplay=1" data-title="Gisteo showreel" aria-label="Play Gisteo showreel">
+  <img src="https://i.vimeocdn.com/video/2225729812-b7dbf8bc5290c02c38facd5be56e13a3a47d63ad3b2744ddaa3c2a300a5ec297-d_1280?region=us" alt="Gisteo showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  <span class="reel-t">Showreel · Gisteo</span><span class="reel-b">Gisteo | Sizzle Reel</span>
+  <span class="playstatic"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></span>
+</a>
+
+  </div>
   
-  <article class="feat">
+<div class="dpanel" id="d-gisteo-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">83.3</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Miami, FL · Full-service + AI</div><p>Miami studio founded in 2011 by agency creative Stephen Conley. Animated explainers, motion graphics, whiteboard, training and AI avatar videos. Roughly 65 distinct client videos in the last 12 months — the highest volume we counted.</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Cloudflare · Keysight Technologies · HealthTrust (HCA) · Sun Life Financial · Scholastic</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>AI video ads for 62or70: 68% YouTube view rate and 16% Facebook CTR</p><p style="color:#CFC4FF;font-size:13px">65 client works in 12 months · Google 5.0 (26) · Clutch 5.0 (8)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>Largest explainer output in the ranking</p><p style="color:#CFC4FF">Google 5.0 (26) · Clutch 5.0 (8)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">60-second explainer from $3,500</p><a class="btn btn-dark btn-sm" href="https://gisteo.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</article>
+
+<article class="feat-wrap rv">
+  <div class="feat">
     <div>
       <div style="display:flex;align-items:baseline;gap:22px">
         <span class="feat-n disp">5</span>
@@ -176,157 +222,454 @@
       <div class="scoreline">
         <div><div class="score-n disp">80.2</div><div class="score-l">score / 100</div></div>
         <div class="bar"><i style="width:80.2%"></i></div>
-        <button type="button" class="btn btn-ghost btn-sm" data-open="4">Details</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-details aria-expanded="false" aria-controls="d-dreamitreel-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
     </div>
-    <a class="reel" href="https://dreamitreel.com" target="_blank" rel="noopener nofollow" aria-label="See DreamItReel work on the studio site">
-      <svg aria-hidden="true" viewBox="0 0 640 360" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><path d="M0 260 C 160 200, 300 330, 640 220 L 640 360 L 0 360 Z" fill="#2E1677"></path><path d="M0 300 C 200 250, 380 360, 640 290 L 640 360 L 0 360 Z" fill="#3E21A8"></path><circle cx="520" cy="90" r="120" fill="#5B3BEB" opacity="0.35"></circle></svg>
-      <span class="reel-t">Showreel · DreamItReel</span><span class="reel-b">Watch on the studio's site ↗</span>
-      <span class="playbtn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg>Play</span>
-    </a>
-  </article>
+    
+<a class="reel" href="https://vimeo.com/951573980" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/951573980?autoplay=1&amp;h=452460a669" data-title="DreamItReel showreel" aria-label="Play DreamItReel showreel">
+  <img src="https://i.vimeocdn.com/video/1898138483-4cf0fc8fb19df4ea8c104fb110d3671baa0a3d02b82b9b895dad7f4be789e98a-d_1280?region=us" alt="DreamItReel showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  <span class="reel-t">Showreel · DreamItReel</span><span class="reel-b">DreamItReel Website Sizzle Landing page</span>
+  <span class="playstatic"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></span>
+</a>
+
+  </div>
   
+<div class="dpanel" id="d-dreamitreel-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">80.2</div><div style="font-size:13px;color:#CFC4FF">score / 100 · New York, NY · Live action</div><p>New York studio founded in 2014. Ads, explainers, product demos, testimonials and 3D animation on à-la-carte or subscription plans. 30 client videos in the last 12 months.</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Johnson &amp; Johnson · Rolex · Vodafone · Symrise · The LYCRA Company · Daltile</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>LinkedIn: 250+ videos and 3× viewership growth; Bacardi: 40+ videos, 8× viewership</p><p style="color:#CFC4FF;font-size:13px">30 client works in 12 months · Google 4.9 (43) · Clutch 5.0 (28)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>Work for 6 companies with $1B+ revenue in the last 24 months</p><p style="color:#CFC4FF">Clutch 5.0 (28) · Google 4.9 (43)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">Subscription, bulk and à-la-carte plans</p><a class="btn btn-dark btn-sm" href="https://dreamitreel.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
 
-  <div style="display:flex;align-items:center;justify-content:space-between;margin:72px 0 24px;border-top:1.5px solid #1C0A45;padding-top:32px">
-    <h3 class="disp" style="margin:0;font-size:28px;font-weight:600">Ranks 6–20</h3><span class="muted" style="font-size:14px">Scroll sideways →</span>
-  </div>
-  <div class="hscroll">
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">6</span><span class="disp" style="font-size:22px;font-weight:600">77.0</span></div>
-      <h4 class="disp">Bottle Rocket Media</h4>
-      <div class="chips"><span class="chip">Chicago, IL</span><span class="chip">Full-service + AI</span></div>
-      <p>Corporate, event and branded-documentary video for Chicago&#39;s biggest brands</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="5" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">7</span><span class="disp" style="font-size:22px;font-weight:600">75.8</span></div>
-      <h4 class="disp">Indigo Productions</h4>
-      <div class="chips"><span class="chip">New York, NY</span><span class="chip">Live action + AI</span></div>
-      <p>Corporate and financial video since 1990 — 269 five-star Google reviews</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="6" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">8</span><span class="disp" style="font-size:22px;font-weight:600">75.2</span></div>
-      <h4 class="disp">Open Light Films</h4>
-      <div class="chips"><span class="chip">San Francisco, CA</span><span class="chip">Live action</span></div>
-      <p>Live-action brand films and customer stories for Bay Area tech</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="7" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">9</span><span class="disp" style="font-size:22px;font-weight:600">74.6</span></div>
-      <h4 class="disp">Chronicle Cinema</h4>
-      <div class="chips"><span class="chip">Louisville, KY</span><span class="chip">Live action + AI</span></div>
-      <p>Commercials, brand films and live event production from Kentucky</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="8" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">10</span><span class="disp" style="font-size:22px;font-weight:600">73.8</span></div>
-      <h4 class="disp">Brandefy</h4>
-      <div class="chips"><span class="chip">Santa Monica, CA</span><span class="chip">Full-service + AI</span></div>
-      <p>3D animation and brand video with measured ad performance</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="9" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">11</span><span class="disp" style="font-size:22px;font-weight:600">73.4</span></div>
-      <h4 class="disp">Storyfarm</h4>
-      <div class="chips"><span class="chip">Baltimore, MD</span><span class="chip">Full-service</span></div>
-      <p>Journalist-founded storytelling studio for Fortune 500 brands</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="10" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">12</span><span class="disp" style="font-size:22px;font-weight:600">73.3</span></div>
-      <h4 class="disp">Sparkhouse</h4>
-      <div class="chips"><span class="chip">Costa Mesa, CA</span><span class="chip">Full-service</span></div>
-      <p>Product and e-commerce video — the most-reviewed studio in the ranking</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="11" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">13</span><span class="disp" style="font-size:22px;font-weight:600">71.0</span></div>
-      <h4 class="disp">Tiger House Films</h4>
-      <div class="chips"><span class="chip">Los Angeles, CA</span><span class="chip">Live action + AI</span></div>
-      <p>National commercials and social campaigns for CPG brands</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="12" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">14</span><span class="disp" style="font-size:22px;font-weight:600">70.8</span></div>
-      <h4 class="disp">Sandwich</h4>
-      <div class="chips"><span class="chip">Los Angeles, CA</span><span class="chip">Live action + AI</span></div>
-      <p>Product commercials and explainers for the best-known names in tech</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="13" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">15</span><span class="disp" style="font-size:22px;font-weight:600">68.6</span></div>
-      <h4 class="disp">ALCHEMYcreative</h4>
-      <div class="chips"><span class="chip">San Francisco, CA</span><span class="chip">Full-service</span></div>
-      <p>Product launches and keynote films for enterprise software</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="14" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">16</span><span class="disp" style="font-size:22px;font-weight:600">68.5</span></div>
-      <h4 class="disp">Grey Sky Films</h4>
-      <div class="chips"><span class="chip">Succasunna, NJ</span><span class="chip">Live action + AI</span></div>
-      <p>Healthcare and pharma video, live action to 3D</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="15" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">17</span><span class="disp" style="font-size:22px;font-weight:600">68.4</span></div>
-      <h4 class="disp">JV Studios</h4>
-      <div class="chips"><span class="chip">Chicago, IL</span><span class="chip">Live action + AI</span></div>
-      <p>Commercials, corporate video and virtual production in Chicago</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="16" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">18</span><span class="disp" style="font-size:22px;font-weight:600">68.2</span></div>
-      <h4 class="disp">Cut to Create</h4>
-      <div class="chips"><span class="chip">Houston, TX</span><span class="chip">Live action</span></div>
-      <p>Industrial, energy and safety video for Houston&#39;s heavy industry</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="17" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">19</span><span class="disp" style="font-size:22px;font-weight:600">68.1</span></div>
-      <h4 class="disp">Atlantic Pictures</h4>
-      <div class="chips"><span class="chip">New York, NY</span><span class="chip">Full-service + AI</span></div>
-      <p>Award-winning brand films for real estate, finance and hospitality</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="18" style="align-self:flex-start">Details</button>
-    </article>
-    
-    <article class="card6">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start"><span class="n disp">20</span><span class="disp" style="font-size:22px;font-weight:600">68.0</span></div>
-      <h4 class="disp">Snowy Peak Films</h4>
-      <div class="chips"><span class="chip">Denver, CO</span><span class="chip">Full-service</span></div>
-      <p>Event, training and brand video with transparent pricing</p>
-      <button type="button" class="btn btn-dark btn-sm" data-open="19" style="align-self:flex-start">Details</button>
-    </article>
-    
-  </div>
+</article>
 
-  <div id="profile" hidden>
-    <div style="display:flex;justify-content:space-between;align-items:center;padding-right:40px;margin-bottom:28px">
-      <div style="display:flex;align-items:baseline;gap:18px"><span class="disp" style="font-size:64px;font-weight:600;color:#B9A9FF;line-height:1">#<span data-f="r">1</span></span><h3 class="disp" style="margin:0;font-size:40px;font-weight:600" data-f="n">Digital Brew</h3></div>
-      <button type="button" class="closebtn" aria-label="Close profile" data-close><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
-    </div>
-    <div class="hscroll" style="padding:0 40px 12px 0">
-      <div class="pcard wide"><div class="plabel">Overview</div><div class="disp" style="margin-top:18px;font-size:54px;font-weight:600" data-f="sc">92.3</div><div style="font-size:14px;color:#CFC4FF">score / 100 · <span data-f="hq">Orlando, FL</span> · <span data-f="seg">Full-service + AI</span></div><p style="margin:22px 0 0;font-size:16px;line-height:1.6;color:#EDE7FF" data-f="about">Orlando studio founded in 2011 by animator Michael Cardwell. 2D/3D explainers, live-action brand and product-launch videos for SaaS, healthcare, industrial and financial companies. The most active studio we measured: 58 client videos published in the last 12 months.</p></div>
-      <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="margin:22px 0 0;font-size:21px;line-height:1.5;font-weight:500" data-f="clients">Cisco · Wolters Kluwer · Kyocera · Bentley Systems · AdventHealth · AMN Healthcare</p></div>
-      <div class="pcard"><div class="plabel">Published results</div><p style="margin:22px 0 0;font-size:19px;line-height:1.5;font-weight:500" data-f="results">Constellation raised $32.5M against a $27M goal after its explainer launched; client survey: 75% report increased sales</p><p style="margin:16px 0 0;font-size:15px;line-height:1.5;color:#CFC4FF" data-f="facts">58 client works in 12 months · Google 5.0 (57) · Clutch 4.9 (18) · 3 awards 2024–26</p></div>
-      <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p style="margin:22px 0 0;font-size:18px;line-height:1.5" data-f="rec">11 Telly Awards in 2024–2026</p><p style="margin:16px 0 0;font-size:18px;line-height:1.5;color:#CFC4FF" data-f="reviews">Google 5.0 (57) · Clutch 4.9 (18)</p></div>
-      <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="margin:22px 0 0;font-size:22px;line-height:1.35;font-weight:600" data-f="price">Explainer videos from $8,000</p><a class="btn btn-dark" data-f-href href="https://digitalbrew.com" target="_blank" rel="noopener nofollow" style="margin-top:28px">Visit studio site</a></div>
-    </div>
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin:90px 0 22px">
+    <h3 class="disp" style="margin:0;font-size:32px;font-weight:600">Ranks 6–20</h3><span class="muted" style="font-size:14px">Open any studio for clients, results, reviews and pricing.</span>
   </div>
+  <div class="rows">
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">6</span>
+    <div><h4 class="disp">Bottle Rocket Media</h4><div class="meta">Chicago, IL · Full-service + AI</div></div>
+    <div class="tg">Corporate, event and branded-documentary video for Chicago&#39;s biggest brands</div>
+    <div class="sc"><b>77.0</b><span class="bar" style="height:6px"><i style="width:77.0%"></i></span></div>
+    
+<a class="thumb" href="https://www.youtube.com/watch?v=G6v-vc_eEd8" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://www.youtube-nocookie.com/embed/G6v-vc_eEd8?autoplay=1&amp;rel=0&amp;modestbranding=1" data-title="Bottle Rocket Media showreel" aria-label="Play Bottle Rocket Media showreel">
+  <img src="https://i.ytimg.com/vi/G6v-vc_eEd8/maxresdefault.jpg" alt="Bottle Rocket Media showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-bottlerocketmedia-net"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-bottlerocketmedia-net">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">77.0</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Chicago, IL · Full-service + AI</div><p>Corporate, event and branded-documentary video for Chicago&#39;s biggest brands</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Dyson</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">4 client works in 12 months · Google 4.8 (23) · Clutch 4.9 (44) · 7 awards 2024–26</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>7 awards 2024–26</p><p style="color:#CFC4FF">Google 4.8 (23) · Clutch 4.9 (44)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://bottlerocketmedia.net" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">7</span>
+    <div><h4 class="disp">Indigo Productions</h4><div class="meta">New York, NY · Live action + AI</div></div>
+    <div class="tg">Corporate and financial video since 1990 — 269 five-star Google reviews</div>
+    <div class="sc"><b>75.8</b><span class="bar" style="height:6px"><i style="width:75.8%"></i></span></div>
+    
+<a class="thumb" href="https://vimeo.com/411468429" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/411468429?autoplay=1" data-title="Indigo Productions showreel" aria-label="Play Indigo Productions showreel">
+  <img src="https://i.vimeocdn.com/video/883543638-75b3e715528f01b3e42e079285e3b2f38cab56a5ce70bf08906eb7d065f630ba-d_1280?region=us" alt="Indigo Productions showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-indigoprod-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-indigoprod-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">75.8</div><div style="font-size:13px;color:#CFC4FF">score / 100 · New York, NY · Live action + AI</div><p>Corporate and financial video since 1990 — 269 five-star Google reviews</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">National Grid · NHL</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">14 client works in 12 months · Google 5.0 (269) · Clutch 5.0 (45)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>—</p><p style="color:#CFC4FF">Google 5.0 (269) · Clutch 5.0 (45)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://indigoprod.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">8</span>
+    <div><h4 class="disp">Open Light Films</h4><div class="meta">San Francisco, CA · Live action</div></div>
+    <div class="tg">Live-action brand films and customer stories for Bay Area tech</div>
+    <div class="sc"><b>75.2</b><span class="bar" style="height:6px"><i style="width:75.2%"></i></span></div>
+    
+<a class="thumb" href="https://vimeo.com/1129064304" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/1129064304?autoplay=1" data-title="Open Light Films showreel" aria-label="Play Open Light Films showreel">
+  <img src="https://i.vimeocdn.com/video/2072335097-4f4842071be2fbcc422b7bbfa5ecb854f341ba81012d95bc56ed153a079d27fa-d_1280?region=us" alt="Open Light Films showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-openlightfilms-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-openlightfilms-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">75.2</div><div style="font-size:13px;color:#CFC4FF">score / 100 · San Francisco, CA · Live action</div><p>Live-action brand films and customer stories for Bay Area tech</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Sabre · Workday · Citibank · Curry Brand · Home Chef</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">18 client works in 12 months · Google 5.0 (75) · 4 awards 2024–26</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>4 awards 2024–26</p><p style="color:#CFC4FF">Google 5.0 (75)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://openlightfilms.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">9</span>
+    <div><h4 class="disp">Chronicle Cinema</h4><div class="meta">Louisville, KY · Live action + AI</div></div>
+    <div class="tg">Commercials, brand films and live event production from Kentucky</div>
+    <div class="sc"><b>74.6</b><span class="bar" style="height:6px"><i style="width:74.6%"></i></span></div>
+    
+<a class="thumb" href="https://vimeo.com/818470055" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/818470055?autoplay=1&amp;h=448b69d42c" data-title="Chronicle Cinema showreel" aria-label="Play Chronicle Cinema showreel">
+  <img src="https://i.vimeocdn.com/video/1656851832-96f4e8f61d61646957386d545f13e50d71a796689b17771e4cf07af7b5f3383e-d_1280?region=us" alt="Chronicle Cinema showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-chroniclecinema-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-chroniclecinema-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">74.6</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Louisville, KY · Live action + AI</div><p>Commercials, brand films and live event production from Kentucky</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">HP · ADM · Texas Roadhouse · Hallmark</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">9 client works in 12 months · Google 5.0 (4) · Clutch 5.0 (2) · 1 award 2024–26</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>1 award 2024–26</p><p style="color:#CFC4FF">Google 5.0 (4) · Clutch 5.0 (2)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://chroniclecinema.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">10</span>
+    <div><h4 class="disp">Brandefy</h4><div class="meta">Santa Monica, CA · Full-service + AI</div></div>
+    <div class="tg">3D animation and brand video with measured ad performance</div>
+    <div class="sc"><b>73.8</b><span class="bar" style="height:6px"><i style="width:73.8%"></i></span></div>
+    
+<a class="thumb" href="https://vimeo.com/578270825" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/578270825?autoplay=1" data-title="Brandefy showreel" aria-label="Play Brandefy showreel">
+  <img src="https://i.vimeocdn.com/video/1196199635-fbd52e27ec0437b71e211c0b021e47bf4f702ff093616c864fd124fb1aa58b1f-d_1280?region=us" alt="Brandefy showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-brandefy-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-brandefy-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">73.8</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Santa Monica, CA · Full-service + AI</div><p>3D animation and brand video with measured ad performance</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Murad · Verizon</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">7 client works in 12 months · Google 5.0 (30) · Clutch 5.0 (43)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>—</p><p style="color:#CFC4FF">Google 5.0 (30) · Clutch 5.0 (43)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://brandefy.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">11</span>
+    <div><h4 class="disp">Storyfarm</h4><div class="meta">Baltimore, MD · Full-service</div></div>
+    <div class="tg">Journalist-founded storytelling studio for Fortune 500 brands</div>
+    <div class="sc"><b>73.4</b><span class="bar" style="height:6px"><i style="width:73.4%"></i></span></div>
+    
+<a class="thumb" href="https://www.youtube.com/watch?v=D9kkTOflZjM" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://www.youtube-nocookie.com/embed/D9kkTOflZjM?autoplay=1&amp;rel=0&amp;modestbranding=1" data-title="Storyfarm showreel" aria-label="Play Storyfarm showreel">
+  <img src="https://i.ytimg.com/vi/D9kkTOflZjM/maxresdefault.jpg" alt="Storyfarm showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-storyfarm-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-storyfarm-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">73.4</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Baltimore, MD · Full-service</div><p>Journalist-founded storytelling studio for Fortune 500 brands</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Ace Hardware · ICF · Hanwha Vision</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">8 client works in 12 months · Google 5.0 (7) · Clutch 5.0 (20)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>—</p><p style="color:#CFC4FF">Google 5.0 (7) · Clutch 5.0 (20)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://storyfarm.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">12</span>
+    <div><h4 class="disp">Sparkhouse</h4><div class="meta">Costa Mesa, CA · Full-service</div></div>
+    <div class="tg">Product and e-commerce video — the most-reviewed studio in the ranking</div>
+    <div class="sc"><b>73.3</b><span class="bar" style="height:6px"><i style="width:73.3%"></i></span></div>
+    
+<a class="thumb" href="https://vimeo.com/1084464267" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/1084464267?autoplay=1" data-title="Sparkhouse showreel" aria-label="Play Sparkhouse showreel">
+  <img src="https://i.vimeocdn.com/video/2015888876-7d0c81c5c84ecb6c8454603606916194299e02449fdc3e2c192a190baea24fb0-d_1280?region=us" alt="Sparkhouse showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-thesparkhouse-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-thesparkhouse-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">73.3</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Costa Mesa, CA · Full-service</div><p>Product and e-commerce video — the most-reviewed studio in the ranking</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Amazon · Southland Credit Union · Arctic Cool · NZXT · NeuroGum</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">48 client works in 12 months · Google 5.0 (148) · Clutch 5.0 (175) · 2 awards 2024–26</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>2 awards 2024–26</p><p style="color:#CFC4FF">Google 5.0 (148) · Clutch 5.0 (175)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://thesparkhouse.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">13</span>
+    <div><h4 class="disp">Tiger House Films</h4><div class="meta">Los Angeles, CA · Live action + AI</div></div>
+    <div class="tg">National commercials and social campaigns for CPG brands</div>
+    <div class="sc"><b>71.0</b><span class="bar" style="height:6px"><i style="width:71.0%"></i></span></div>
+    
+<a class="thumb" href="https://vimeo.com/807836032" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/807836032?autoplay=1" data-title="Tiger House Films showreel" aria-label="Play Tiger House Films showreel">
+  <img src="https://i.vimeocdn.com/video/1631725946-53767e0f4b443bcd01eb3eea8454d58a64b4e1f42294d12fb92f2b4140cbad56-d_1280?region=us" alt="Tiger House Films showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-tigerhousefilms-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-tigerhousefilms-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">71.0</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Los Angeles, CA · Live action + AI</div><p>National commercials and social campaigns for CPG brands</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">SharkNinja · New York Life · Old Spice · P&amp;G · Shark Beauty</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">5 client works in 12 months · Google 4.9 (9) · 1 award 2024–26</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>1 award 2024–26</p><p style="color:#CFC4FF">Google 4.9 (9)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://tigerhousefilms.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">14</span>
+    <div><h4 class="disp">Sandwich</h4><div class="meta">Los Angeles, CA · Live action + AI</div></div>
+    <div class="tg">Product commercials and explainers for the best-known names in tech</div>
+    <div class="sc"><b>70.8</b><span class="bar" style="height:6px"><i style="width:70.8%"></i></span></div>
+    
+<a class="thumb" href="https://www.youtube.com/watch?v=jCw1vK6aiQY" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://www.youtube-nocookie.com/embed/jCw1vK6aiQY?autoplay=1&amp;rel=0&amp;modestbranding=1" data-title="Sandwich showreel" aria-label="Play Sandwich showreel">
+  <img src="https://i.ytimg.com/vi/jCw1vK6aiQY/hqdefault.jpg" alt="Sandwich showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-sandwich-co"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-sandwich-co">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">70.8</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Los Angeles, CA · Live action + AI</div><p>Product commercials and explainers for the best-known names in tech</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Autodesk · Rubrik · ServiceNow</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">20 client works in 12 months · Google 5.0 (1)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>—</p><p style="color:#CFC4FF">Google 5.0 (1)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://sandwich.co" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">15</span>
+    <div><h4 class="disp">ALCHEMYcreative</h4><div class="meta">San Francisco, CA · Full-service</div></div>
+    <div class="tg">Product launches and keynote films for enterprise software</div>
+    <div class="sc"><b>68.6</b><span class="bar" style="height:6px"><i style="width:68.6%"></i></span></div>
+    
+<a class="thumb" href="https://vimeo.com/1222799544" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/1222799544?autoplay=1" data-title="ALCHEMYcreative showreel" aria-label="Play ALCHEMYcreative showreel">
+  <img src="https://i.vimeocdn.com/video/2195862753-5de04512626b3f2b9e8cf5f05477d6c63eddbccd0a87720d78c994685a8de14a-d_1280?region=us" alt="ALCHEMYcreative showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-alchemycreative-tv"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-alchemycreative-tv">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">68.6</div><div style="font-size:13px;color:#CFC4FF">score / 100 · San Francisco, CA · Full-service</div><p>Product launches and keynote films for enterprise software</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Dynatrace · Dolby · Adobe · Tableau · Albertsons</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">11 client works in 12 months · Clutch 4.9 (15)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>—</p><p style="color:#CFC4FF">Clutch 4.9 (15)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://alchemycreative.tv" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">16</span>
+    <div><h4 class="disp">Grey Sky Films</h4><div class="meta">Succasunna, NJ · Live action + AI</div></div>
+    <div class="tg">Healthcare and pharma video, live action to 3D</div>
+    <div class="sc"><b>68.5</b><span class="bar" style="height:6px"><i style="width:68.5%"></i></span></div>
+    
+<a class="thumb" href="https://www.youtube.com/watch?v=aipePIJcCOw" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://www.youtube-nocookie.com/embed/aipePIJcCOw?autoplay=1&amp;rel=0&amp;modestbranding=1" data-title="Grey Sky Films showreel" aria-label="Play Grey Sky Films showreel">
+  <img src="https://i.ytimg.com/vi/aipePIJcCOw/maxresdefault.jpg" alt="Grey Sky Films showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-greyskyfilms-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-greyskyfilms-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">68.5</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Succasunna, NJ · Live action + AI</div><p>Healthcare and pharma video, live action to 3D</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">TAG Heuer</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">11 client works in 12 months · Google 5.0 (19)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>—</p><p style="color:#CFC4FF">Google 5.0 (19)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://greyskyfilms.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">17</span>
+    <div><h4 class="disp">JV Studios</h4><div class="meta">Chicago, IL · Live action + AI</div></div>
+    <div class="tg">Commercials, corporate video and virtual production in Chicago</div>
+    <div class="sc"><b>68.4</b><span class="bar" style="height:6px"><i style="width:68.4%"></i></span></div>
+    
+<a class="thumb" href="https://vimeo.com/1232891612" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/1232891612?autoplay=1&amp;h=5d90d3c2d3" data-title="JV Studios showreel" aria-label="Play JV Studios showreel">
+  <img src="https://i.vimeocdn.com/video/2208419360-789bd65321a466d0a16c1cd7dc0c92160ed331970f03d7abc8289a0f757d65be-d_1280?region=us" alt="JV Studios showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-thejvstudio-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-thejvstudio-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">68.4</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Chicago, IL · Live action + AI</div><p>Commercials, corporate video and virtual production in Chicago</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Wilson Sporting Goods</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">9 client works in 12 months · Google 5.0 (52) · Clutch 5.0 (15)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>—</p><p style="color:#CFC4FF">Google 5.0 (52) · Clutch 5.0 (15)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://thejvstudio.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">18</span>
+    <div><h4 class="disp">Cut to Create</h4><div class="meta">Houston, TX · Live action</div></div>
+    <div class="tg">Industrial, energy and safety video for Houston&#39;s heavy industry</div>
+    <div class="sc"><b>68.2</b><span class="bar" style="height:6px"><i style="width:68.2%"></i></span></div>
+    
+<a class="thumb" href="https://www.youtube.com/watch?v=EaBBMpdE6k4" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://www.youtube-nocookie.com/embed/EaBBMpdE6k4?autoplay=1&amp;rel=0&amp;modestbranding=1" data-title="Cut to Create showreel" aria-label="Play Cut to Create showreel">
+  <img src="https://i.ytimg.com/vi/EaBBMpdE6k4/maxresdefault.jpg" alt="Cut to Create showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-cuttocreate-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-cuttocreate-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">68.2</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Houston, TX · Live action</div><p>Industrial, energy and safety video for Houston&#39;s heavy industry</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Aramco · Occidental Petroleum · Mitsubishi Logisnext · BlueScope · CPKC</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">25 client works in 12 months · Google 5.0 (17)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>—</p><p style="color:#CFC4FF">Google 5.0 (17)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://cuttocreate.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">19</span>
+    <div><h4 class="disp">Atlantic Pictures</h4><div class="meta">New York, NY · Full-service + AI</div></div>
+    <div class="tg">Award-winning brand films for real estate, finance and hospitality</div>
+    <div class="sc"><b>68.1</b><span class="bar" style="height:6px"><i style="width:68.1%"></i></span></div>
+    
+<a class="thumb" href="https://atlanticpictures.com/" target="_blank" rel="noopener nofollow" data-cursor="play"  aria-label="Play Atlantic Pictures showreel">
+  <img src="https://i.vimeocdn.com/video/1683053060-af179e08b4adf833ae0a96582db5b92d603e17103112b62d7780aca009f58034-d_1280?region=us" alt="Atlantic Pictures showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-atlanticpictures-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-atlanticpictures-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">68.1</div><div style="font-size:13px;color:#CFC4FF">score / 100 · New York, NY · Full-service + AI</div><p>Award-winning brand films for real estate, finance and hospitality</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">TikTok · Skechers · Canon · LG</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">9 client works in 12 months · Google 5.0 (2) · 3 awards 2024–26</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>3 awards 2024–26</p><p style="color:#CFC4FF">Google 5.0 (2)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://atlanticpictures.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+
+<div class="lrow rv">
+  <div class="lrow-h">
+    <span class="n disp">20</span>
+    <div><h4 class="disp">Snowy Peak Films</h4><div class="meta">Denver, CO · Full-service</div></div>
+    <div class="tg">Event, training and brand video with transparent pricing</div>
+    <div class="sc"><b>68.0</b><span class="bar" style="height:6px"><i style="width:68.0%"></i></span></div>
+    
+<a class="thumb" href="https://vimeo.com/1243393924" target="_blank" rel="noopener nofollow" data-cursor="play" data-video="https://player.vimeo.com/video/1243393924?autoplay=1" data-title="Snowy Peak Films showreel" aria-label="Play Snowy Peak Films showreel">
+  <img src="https://i.vimeocdn.com/video/2221901453-afcce4ba8f4630ef1a32cfdabd5fdb6d286efd79db44586afa3c6a3fad8d2ea5-d_1280?region=us" alt="Snowy Peak Films showreel cover" loading="lazy" referrerpolicy="no-referrer">
+  
+  <i><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"></path></svg></i>
+</a>
+
+    <button type="button" class="btn btn-dark btn-sm" data-details aria-expanded="false" aria-controls="d-snowypeakfilms-com"><span class="lbl">Details</span><svg class="chev" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+  </div>
+  
+<div class="dpanel" id="d-snowypeakfilms-com">
+  <div class="dpanel-in">
+    <div class="pcard"><div class="plabel">Overview</div><div class="big disp">68.0</div><div style="font-size:13px;color:#CFC4FF">score / 100 · Denver, CO · Full-service</div><p>Event, training and brand video with transparent pricing</p></div>
+    <div class="pcard"><div class="plabel">Recent clients</div><p class="disp" style="font-size:17px;line-height:1.5;font-weight:500">Cepheid</p></div>
+    <div class="pcard"><div class="plabel">Published results</div><p>—</p><p style="color:#CFC4FF;font-size:13px">15 client works in 12 months · Google 5.0 (35) · Clutch 5.0 (48)</p></div>
+    <div class="pcard"><div class="plabel">Recognition &amp; reviews</div><p>—</p><p style="color:#CFC4FF">Google 5.0 (35) · Clutch 5.0 (48)</p></div>
+    <div class="pcard light"><div class="plabel">Pricing</div><p class="disp" style="font-size:18px;line-height:1.35;font-weight:600">On request</p><a class="btn btn-dark btn-sm" href="https://snowypeakfilms.com" target="_blank" rel="noopener nofollow" style="margin-top:20px">Visit studio site ↗</a></div>
+  </div>
+</div>
+
+</div>
+</div>
 </section>
 
 <section aria-label="Category leaders">
@@ -459,7 +802,12 @@
   <div class="ftr-b"><span>Published by Lava Media, which is ranked #3 under the same criteria as every other studio. No studio paid to be listed.</span><span>Spot a factual error? Send us the public source — we correct facts, never scores on request.</span></div>
 </footer>
 </div>
+<div id="cursor" aria-hidden="true"><div class="dot"><svg width="16" height="16" viewBox="0 0 24 24" fill="#1C0A45"><path d="M7 4 L20 12 L7 20 Z"/></svg><span>Play</span></div></div>
+<div id="vmodal" hidden role="dialog" aria-modal="true" aria-label="Showreel"><button class="vclose" type="button" aria-label="Close video">✕</button><div class="vbox vframe"></div></div>
 <script src="/assets/site.js" defer></script>
-<script>window.TOP=[{"i": 0, "r": 1, "n": "Digital Brew", "sc": "92.3", "hq": "Orlando, FL", "seg": "Full-service + AI", "about": "Orlando studio founded in 2011 by animator Michael Cardwell. 2D/3D explainers, live-action brand and product-launch videos for SaaS, healthcare, industrial and financial companies. The most active studio we measured: 58 client videos published in the last 12 months.", "clients": "Cisco · Wolters Kluwer · Kyocera · Bentley Systems · AdventHealth · AMN Healthcare", "results": "Constellation raised $32.5M against a $27M goal after its explainer launched; client survey: 75% report increased sales", "rec": "11 Telly Awards in 2024–2026", "reviews": "Google 5.0 (57) · Clutch 4.9 (18)", "price": "Explainer videos from $8,000", "url": "https://digitalbrew.com", "tag": "Animated and live-action explainers with the strongest track record in the ranking", "facts": "58 client works in 12 months · Google 5.0 (57) · Clutch 4.9 (18) · 3 awards 2024–26"}, {"i": 1, "r": 2, "n": "Levitate Media", "sc": "84.5", "hq": "Alpharetta, GA", "seg": "Live action + AI", "about": "Alpharetta (Atlanta) studio founded in 2009. Live action, 2D/3D animation and AI-assisted production for tech, industrial, healthcare and financial brands, with localization for global rollouts. 30 client videos published in the last 12 months.", "clients": "Caterpillar · Holcim · Amcor · Oncor · Teladoc Health · SquareTrade (Allstate)", "results": "SquareTrade Samsung S25 drop test: 143K+ YouTube views and coverage by 9 outlets on day one", "rec": "6 Telly Awards in 2024–2025", "reviews": "Clutch 4.8 (92) · Google 4.5 (48)", "price": "Most projects $5,000–$25,000", "url": "https://levitatemedia.com", "tag": "B2B explainers, product demos and training — at scale", "facts": "30 client works in 12 months · Google 4.5 (48) · Clutch 4.8 (92) · 6 awards 2024–26"}, {"i": 2, "r": 3, "n": "Lava Media", "sc": "83.4", "hq": "San Diego, CA", "seg": "Full-service + AI", "about": "San Diego–headquartered studio founded in 2013, with post-production in Istanbul. Corporate and brand films, 2D/3D explainers, 3D product and medical-device animation, AI video and training content. 15 client works published in the last 12 months.", "clients": "3M · Roche / Accu-Chek · Fresenius Kabi · Coty (Rimmel, Bourjois) · Vivo · TechnoNICOL", "results": "Meizu market share grew from 0 to 4% over a multi-year video partnership", "rec": "Ratings of Runet 2025: #10 video production studios (Moscow); 2026: #21 creative agencies", "reviews": "Clutch 5.0 (3) · Trustpilot 4.0 (4)", "price": "AI videos from $2,800 · animated explainers from $9,000 · live action + CG from $13,900", "url": "https://lavamedia.us", "tag": "Corporate, medtech and AI video — from 3D product animation to TV spots", "facts": "15 client works in 12 months · Clutch 5.0 (3)"}, {"i": 3, "r": 4, "n": "Gisteo", "sc": "83.3", "hq": "Miami, FL", "seg": "Full-service + AI", "about": "Miami studio founded in 2011 by agency creative Stephen Conley. Animated explainers, motion graphics, whiteboard, training and AI avatar videos. Roughly 65 distinct client videos in the last 12 months — the highest volume we counted.", "clients": "Cloudflare · Keysight Technologies · HealthTrust (HCA) · Sun Life Financial · Scholastic", "results": "AI video ads for 62or70: 68% YouTube view rate and 16% Facebook CTR", "rec": "Largest explainer output in the ranking", "reviews": "Google 5.0 (26) · Clutch 5.0 (8)", "price": "60-second explainer from $3,500", "url": "https://gisteo.com", "tag": "High-volume animated explainers and AI video for businesses", "facts": "65 client works in 12 months · Google 5.0 (26) · Clutch 5.0 (8)"}, {"i": 4, "r": 5, "n": "DreamItReel", "sc": "80.2", "hq": "New York, NY", "seg": "Live action", "about": "New York studio founded in 2014. Ads, explainers, product demos, testimonials and 3D animation on à-la-carte or subscription plans. 30 client videos in the last 12 months.", "clients": "Johnson & Johnson · Rolex · Vodafone · Symrise · The LYCRA Company · Daltile", "results": "LinkedIn: 250+ videos and 3× viewership growth; Bacardi: 40+ videos, 8× viewership", "rec": "Work for 6 companies with $1B+ revenue in the last 24 months", "reviews": "Clutch 5.0 (28) · Google 4.9 (43)", "price": "Subscription, bulk and à-la-carte plans", "url": "https://dreamitreel.com", "tag": "On-demand video production for brands and agencies", "facts": "30 client works in 12 months · Google 4.9 (43) · Clutch 5.0 (28)"}, {"i": 5, "r": 6, "n": "Bottle Rocket Media", "sc": "77.0", "hq": "Chicago, IL", "seg": "Full-service + AI", "about": "Corporate, event and branded-documentary video for Chicago's biggest brands", "clients": "Dyson", "results": "—", "rec": "7 awards 2024–26", "reviews": "Google 4.8 (23) · Clutch 4.9 (44)", "price": "On request", "url": "https://bottlerocketmedia.net", "tag": "Corporate, event and branded-documentary video for Chicago's biggest brands", "facts": "4 client works in 12 months · Google 4.8 (23) · Clutch 4.9 (44) · 7 awards 2024–26"}, {"i": 6, "r": 7, "n": "Indigo Productions", "sc": "75.8", "hq": "New York, NY", "seg": "Live action + AI", "about": "Corporate and financial video since 1990 — 269 five-star Google reviews", "clients": "National Grid · NHL", "results": "—", "rec": "—", "reviews": "Google 5.0 (269) · Clutch 5.0 (45)", "price": "On request", "url": "https://indigoprod.com", "tag": "Corporate and financial video since 1990 — 269 five-star Google reviews", "facts": "14 client works in 12 months · Google 5.0 (269) · Clutch 5.0 (45)"}, {"i": 7, "r": 8, "n": "Open Light Films", "sc": "75.2", "hq": "San Francisco, CA", "seg": "Live action", "about": "Live-action brand films and customer stories for Bay Area tech", "clients": "Sabre · Workday · Citibank · Curry Brand · Home Chef", "results": "—", "rec": "4 awards 2024–26", "reviews": "Google 5.0 (75)", "price": "On request", "url": "https://openlightfilms.com", "tag": "Live-action brand films and customer stories for Bay Area tech", "facts": "18 client works in 12 months · Google 5.0 (75) · 4 awards 2024–26"}, {"i": 8, "r": 9, "n": "Chronicle Cinema", "sc": "74.6", "hq": "Louisville, KY", "seg": "Live action + AI", "about": "Commercials, brand films and live event production from Kentucky", "clients": "HP · ADM · Texas Roadhouse · Hallmark", "results": "—", "rec": "1 award 2024–26", "reviews": "Google 5.0 (4) · Clutch 5.0 (2)", "price": "On request", "url": "https://chroniclecinema.com", "tag": "Commercials, brand films and live event production from Kentucky", "facts": "9 client works in 12 months · Google 5.0 (4) · Clutch 5.0 (2) · 1 award 2024–26"}, {"i": 9, "r": 10, "n": "Brandefy", "sc": "73.8", "hq": "Santa Monica, CA", "seg": "Full-service + AI", "about": "3D animation and brand video with measured ad performance", "clients": "Murad · Verizon", "results": "—", "rec": "—", "reviews": "Google 5.0 (30) · Clutch 5.0 (43)", "price": "On request", "url": "https://brandefy.com", "tag": "3D animation and brand video with measured ad performance", "facts": "7 client works in 12 months · Google 5.0 (30) · Clutch 5.0 (43)"}, {"i": 10, "r": 11, "n": "Storyfarm", "sc": "73.4", "hq": "Baltimore, MD", "seg": "Full-service", "about": "Journalist-founded storytelling studio for Fortune 500 brands", "clients": "Ace Hardware · ICF · Hanwha Vision", "results": "—", "rec": "—", "reviews": "Google 5.0 (7) · Clutch 5.0 (20)", "price": "On request", "url": "https://storyfarm.com", "tag": "Journalist-founded storytelling studio for Fortune 500 brands", "facts": "8 client works in 12 months · Google 5.0 (7) · Clutch 5.0 (20)"}, {"i": 11, "r": 12, "n": "Sparkhouse", "sc": "73.3", "hq": "Costa Mesa, CA", "seg": "Full-service", "about": "Product and e-commerce video — the most-reviewed studio in the ranking", "clients": "Amazon · Southland Credit Union · Arctic Cool · NZXT · NeuroGum", "results": "—", "rec": "2 awards 2024–26", "reviews": "Google 5.0 (148) · Clutch 5.0 (175)", "price": "On request", "url": "https://thesparkhouse.com", "tag": "Product and e-commerce video — the most-reviewed studio in the ranking", "facts": "48 client works in 12 months · Google 5.0 (148) · Clutch 5.0 (175) · 2 awards 2024–26"}, {"i": 12, "r": 13, "n": "Tiger House Films", "sc": "71.0", "hq": "Los Angeles, CA", "seg": "Live action + AI", "about": "National commercials and social campaigns for CPG brands", "clients": "SharkNinja · New York Life · Old Spice · P&G · Shark Beauty", "results": "—", "rec": "1 award 2024–26", "reviews": "Google 4.9 (9)", "price": "On request", "url": "https://tigerhousefilms.com", "tag": "National commercials and social campaigns for CPG brands", "facts": "5 client works in 12 months · Google 4.9 (9) · 1 award 2024–26"}, {"i": 13, "r": 14, "n": "Sandwich", "sc": "70.8", "hq": "Los Angeles, CA", "seg": "Live action + AI", "about": "Product commercials and explainers for the best-known names in tech", "clients": "Autodesk · Rubrik · ServiceNow", "results": "—", "rec": "—", "reviews": "Google 5.0 (1)", "price": "On request", "url": "https://sandwich.co", "tag": "Product commercials and explainers for the best-known names in tech", "facts": "20 client works in 12 months · Google 5.0 (1)"}, {"i": 14, "r": 15, "n": "ALCHEMYcreative", "sc": "68.6", "hq": "San Francisco, CA", "seg": "Full-service", "about": "Product launches and keynote films for enterprise software", "clients": "Dynatrace · Dolby · Adobe · Tableau · Albertsons", "results": "—", "rec": "—", "reviews": "Clutch 4.9 (15)", "price": "On request", "url": "https://alchemycreative.tv", "tag": "Product launches and keynote films for enterprise software", "facts": "11 client works in 12 months · Clutch 4.9 (15)"}, {"i": 15, "r": 16, "n": "Grey Sky Films", "sc": "68.5", "hq": "Succasunna, NJ", "seg": "Live action + AI", "about": "Healthcare and pharma video, live action to 3D", "clients": "TAG Heuer", "results": "—", "rec": "—", "reviews": "Google 5.0 (19)", "price": "On request", "url": "https://greyskyfilms.com", "tag": "Healthcare and pharma video, live action to 3D", "facts": "11 client works in 12 months · Google 5.0 (19)"}, {"i": 16, "r": 17, "n": "JV Studios", "sc": "68.4", "hq": "Chicago, IL", "seg": "Live action + AI", "about": "Commercials, corporate video and virtual production in Chicago", "clients": "Wilson Sporting Goods", "results": "—", "rec": "—", "reviews": "Google 5.0 (52) · Clutch 5.0 (15)", "price": "On request", "url": "https://thejvstudio.com", "tag": "Commercials, corporate video and virtual production in Chicago", "facts": "9 client works in 12 months · Google 5.0 (52) · Clutch 5.0 (15)"}, {"i": 17, "r": 18, "n": "Cut to Create", "sc": "68.2", "hq": "Houston, TX", "seg": "Live action", "about": "Industrial, energy and safety video for Houston's heavy industry", "clients": "Aramco · Occidental Petroleum · Mitsubishi Logisnext · BlueScope · CPKC", "results": "—", "rec": "—", "reviews": "Google 5.0 (17)", "price": "On request", "url": "https://cuttocreate.com", "tag": "Industrial, energy and safety video for Houston's heavy industry", "facts": "25 client works in 12 months · Google 5.0 (17)"}, {"i": 18, "r": 19, "n": "Atlantic Pictures", "sc": "68.1", "hq": "New York, NY", "seg": "Full-service + AI", "about": "Award-winning brand films for real estate, finance and hospitality", "clients": "TikTok · Skechers · Canon · LG", "results": "—", "rec": "3 awards 2024–26", "reviews": "Google 5.0 (2)", "price": "On request", "url": "https://atlanticpictures.com", "tag": "Award-winning brand films for real estate, finance and hospitality", "facts": "9 client works in 12 months · Google 5.0 (2) · 3 awards 2024–26"}, {"i": 19, "r": 20, "n": "Snowy Peak Films", "sc": "68.0", "hq": "Denver, CO", "seg": "Full-service", "about": "Event, training and brand video with transparent pricing", "clients": "Cepheid", "results": "—", "rec": "—", "reviews": "Google 5.0 (35) · Clutch 5.0 (48)", "price": "On request", "url": "https://snowypeakfilms.com", "tag": "Event, training and brand video with transparent pricing", "facts": "15 client works in 12 months · Google 5.0 (35) · Clutch 5.0 (48)"}];</script>
+
+<script type="importmap">{"imports":{"three":"/assets/vendor/three/three.module.min.js","three/addons/":"/assets/vendor/three/addons/"}}</script>
+<script type="module" src="/assets/hero3d.js"></script>
+
 </body>
 </html>
