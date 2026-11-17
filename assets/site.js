@@ -1,4 +1,7 @@
 (function(){
+  function track(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
+  window.__track=track;
+  document.addEventListener('click',function(e){var a=e.target.closest('a[data-studio]');if(a&&!a.hasAttribute('data-video'))track('studio_site_click',{studio:a.getAttribute('data-studio'),place:a.getAttribute('data-place')||''});},true);
   var lerp=function(a,b,t){return a+(b-a)*t;};
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -28,8 +31,9 @@
       return samples[lo][0];
     }
     function tick(){var t=target();drawn=reduce?t:lerp(drawn,t,0.085);path.style.strokeDashoffset=(len-drawn).toFixed(1);requestAnimationFrame(tick);}
-    build();drawn=target();addEventListener('resize',function(){build();});
-    new ResizeObserver(function(){build();}).observe(document.querySelector('.page'));
+    build();drawn=target();var rbT;function rebuild(){clearTimeout(rbT);rbT=setTimeout(build,300);}
+    addEventListener('resize',rebuild);
+    new ResizeObserver(rebuild).observe(document.querySelector('.page'));
     requestAnimationFrame(tick);
   }
 
@@ -40,7 +44,7 @@
     var mx=-100,my=-100,cx=-100,cy=-100;
     addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cur.classList.add('on');},{passive:true});
     document.addEventListener('mouseleave',function(){cur.classList.remove('on');});
-    (function loop(){cx=lerp(cx,mx,0.2);cy=lerp(cy,my,0.2);cur.style.transform='translate3d('+cx+'px,'+cy+'px,0)';requestAnimationFrame(loop);})();
+    (function loop(){var nx=lerp(cx,mx,0.22),ny=lerp(cy,my,0.22);if(Math.abs(nx-cx)>.05||Math.abs(ny-cy)>.05){cx=nx;cy=ny;cur.style.transform='translate3d('+cx+'px,'+cy+'px,0)';}requestAnimationFrame(loop);})();
     document.addEventListener('mouseover',function(e){
       var t=e.target.closest('[data-cursor],a,button');
       cur.classList.toggle('is-play',!!(t&&t.getAttribute('data-cursor')==='play'));
@@ -50,15 +54,15 @@
 
   /* ---------- hero fallback tilt (if no WebGL) ---------- */
 
-  /* ---------- details: expand in place ---------- */
+  /* ---------- details: expand in place (CSS grid-rows transition) ---------- */
   document.querySelectorAll('[data-details]').forEach(function(btn){
     var panel=document.getElementById(btn.getAttribute('aria-controls'));
     btn.addEventListener('click',function(){
       var open=btn.getAttribute('aria-expanded')==='true';
       btn.setAttribute('aria-expanded',!open);
       btn.querySelector('.lbl').textContent=open?'Details':'Close';
-      if(open){panel.style.height=panel.scrollHeight+'px';requestAnimationFrame(function(){panel.style.height='0px';});panel.classList.remove('open');}
-      else{panel.classList.add('open');panel.style.height=panel.scrollHeight+'px';panel.addEventListener('transitionend',function f(){if(btn.getAttribute('aria-expanded')==='true')panel.style.height='auto';panel.removeEventListener('transitionend',f);});}
+      panel.classList.toggle('open',!open);
+      if(!open) track('details_open',{studio:btn.getAttribute('data-studio')||''});
     });
   });
 
@@ -69,10 +73,25 @@
     function open(src,title){frame.innerHTML='<iframe src="'+src+'" title="'+(title||'Showreel')+'" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';modal.hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(function(){modal.classList.add('show');});}
     function close(){modal.classList.remove('show');setTimeout(function(){modal.hidden=true;frame.innerHTML='';document.body.style.overflow='';},300);}
     document.querySelectorAll('[data-video]').forEach(function(el){el.addEventListener('click',function(e){
-      var v=el.getAttribute('data-video');if(!v)return;e.preventDefault();open(v,el.getAttribute('data-title'));});});
+      var v=el.getAttribute('data-video');if(!v)return;e.preventDefault();open(v,el.getAttribute('data-title'));track('reel_play',{studio:el.getAttribute('data-studio')||''});});});
     modal.addEventListener('click',function(e){if(e.target===modal||e.target.closest('.vclose'))close();});
     addEventListener('keydown',function(e){if(e.key==='Escape'&&!modal.hidden)close();});
   }
+
+  /* ---------- feedback form ---------- */
+  var fb=document.getElementById('fbform');
+  if(fb){fb.addEventListener('submit',function(e){e.preventDefault();
+    var st=fb.querySelector('.fb-status'),btn=fb.querySelector('button[type=submit]');
+    if(fb.querySelector('[name=botcheck]').checked)return;
+    var key=fb.getAttribute('data-key');
+    if(!key||key.indexOf('PLACEHOLDER')>-1){st.textContent='The form is being connected — please try again shortly.';st.className='fb-status err';return;}
+    btn.disabled=true;st.textContent='Sending…';st.className='fb-status';
+    var data=Object.fromEntries(new FormData(fb).entries());data.access_key=key;data.subject='Top Corporate Video Productions — '+(data.topic||'feedback');data.from_name='topcorporatevideoproduction.com';
+    fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)})
+      .then(function(r){return r.json();}).then(function(j){if(j.success){fb.reset();st.textContent='Thank you — we read every message and reply within a few days.';st.className='fb-status ok';track('feedback_submit',{topic:data.topic||''});}else{throw 0;}})
+      .catch(function(){st.textContent='Something went wrong. Please try again in a minute.';st.className='fb-status err';})
+      .finally(function(){btn.disabled=false;});
+  });}
 
   /* ---------- tiles, accordion ---------- */
   document.querySelectorAll('.tilerow').forEach(function(row){var tiles=[].slice.call(row.children);
