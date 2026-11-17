@@ -21,7 +21,7 @@
       for(var i=0;i<pts.length-1;i++){var p0=pts[i-1]||pts[i],p1=pts[i],p2=pts[i+1],p3=pts[i+2]||p2;
         d+=' C'+(p1[0]+(p2[0]-p0[0])/6)+' '+(p1[1]+(p2[1]-p0[1])/6)+','+(p2[0]-(p3[0]-p1[0])/6)+' '+(p2[1]-(p3[1]-p1[1])/6)+','+p2[0]+' '+p2[1];}
       path.setAttribute('d',d);base.setAttribute('d',d);
-      len=path.getTotalLength();path.style.strokeDasharray=len+' '+len;
+      path.setAttribute('stroke-width',W<720?12:W<1180?18:26);len=path.getTotalLength();path.style.strokeDasharray=len+' '+len;
       samples=[];var maxY=0;for(var s=0;s<=400;s++){var l=len*s/400,pt=path.getPointAtLength(l);maxY=Math.max(maxY,pt.y);samples.push([l,maxY]);}
     }
     function target(){ // length whose y reaches the viewport's lower third
@@ -92,6 +92,10 @@
       .catch(function(){st.textContent='Something went wrong. Please try again in a minute.';st.className='fb-status err';})
       .finally(function(){btn.disabled=false;});
   });}
+
+  /* ---------- mobile nav ---------- */
+  var bg=document.querySelector('.burger'),mn=document.getElementById('mnav');
+  if(bg&&mn){bg.addEventListener('click',function(){var o=bg.getAttribute('aria-expanded')!=='true';bg.setAttribute('aria-expanded',o);mn.classList.toggle('open',o);});}
 
   /* ---------- tiles, accordion ---------- */
   document.querySelectorAll('.tilerow').forEach(function(row){var tiles=[].slice.call(row.children);

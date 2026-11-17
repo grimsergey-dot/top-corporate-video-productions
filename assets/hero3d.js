@@ -10,7 +10,7 @@ if (host) {
 
   function init() {
     const W = () => host.clientWidth, H = () => host.clientHeight;
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(devicePixelRatio, W() < 600 ? 1.5 : 2));
     renderer.setSize(W(), H());
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.05;
@@ -21,7 +21,7 @@ if (host) {
     scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 
     const camera = new THREE.PerspectiveCamera(32, W() / H(), 0.1, 100);
-    camera.position.set(0, 0, 10.6);
+    camera.position.set(0, 0, W() < 600 ? 12.5 : 10.6);
 
     const rig = new THREE.Group(); scene.add(rig);
     const lens = new THREE.Group(); rig.add(lens);
