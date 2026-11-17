@@ -21,7 +21,7 @@ if (host) {
     scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 
     const camera = new THREE.PerspectiveCamera(32, W() / H(), 0.1, 100);
-    camera.position.set(0, 0, 9.2);
+    camera.position.set(0, 0, 10.6);
 
     const rig = new THREE.Group(); scene.add(rig);
     const lens = new THREE.Group(); rig.add(lens);
