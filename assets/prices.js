@@ -70,7 +70,7 @@
     var fitN=studiosFit().length;$('pc-nst').textContent=fitN;
     $('pc-nst-s').textContent=fitN?'with matching prices or projects':'Nothing yet, try a broader filter';}
   function vlabel(v){if(v.pb==='clutch_budget'){if(!v.lo)return 'Under '+money((v.hi||9999)+1);if(v.hi==null)return money(v.lo)+'+';return money(v.lo)+'–'+money(v.hi%1000===999?v.hi+1:v.hi);}
-    if(v.pl&&v.pl.length<=26&&/^(from|\$|under|less|up to)/i.test(v.pl))return v.pl;var open=v.pb==='studio_published_price_for_type';return (open&&!v.hi?'from ':'')+range(v.lo,v.hi);}
+    var open=v.pb==='studio_published_price_for_type'||/^from/i.test(v.pl||'');return (open&&!v.hi?'from ':'')+range(v.lo,v.hi)+(v.pd?' / day':'');}
   function vtitle(v){var t=v.ti||'';if(!t||/^https?:/i.test(t)||/^untitled/i.test(t))t=(v.c?v.c+' — ':'')+(v.t?typeLabel(v.t):'Video');return t;}
   function vcard(o){var v=o.v,S=studio(v.d),lbl=vlabel(v);
     var attrs=v.em?' data-video="'+esc(v.em)+'" data-title="'+esc(vtitle(v))+'" data-price="1" data-cursor="play"':'';
