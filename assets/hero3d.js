@@ -114,30 +114,18 @@ if (host) {
     rim.position.x = -2.69; model.add(rim);
     rim.userData.wire = new THREE.EdgesGeometry(new THREE.TorusGeometry(0.9, 0.045, 6, 48).rotateY(Math.PI / 2), 1);
 
-    // aperture inside the front element (opens on hover / scroll)
+    // front glass element (recessed in the hood)
     const ap = new THREE.Group(); ap.position.x = -2.4; ap.rotation.y = -Math.PI / 2; ap.scale.setScalar(0.36); model.add(ap);
-    const back = new THREE.Mesh(new THREE.RingGeometry(0.2, 2.35, 72), M.dark); back.position.z = -0.18; ap.add(back);
-    const glowTex = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
-      const gr = g.createRadialGradient(128, 128, 0, 128, 128, 128); gr.addColorStop(0, 'rgba(245,242,255,1)'); gr.addColorStop(.35, 'rgba(185,169,255,.85)'); gr.addColorStop(1, 'rgba(91,59,235,0)');
-      g.fillStyle = gr; g.fillRect(0, 0, 256, 256); return new THREE.CanvasTexture(c); })();
-    const glow = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 3.6), new THREE.MeshBasicMaterial({ map: glowTex, transparent: true, depthWrite: false }));
-    glow.position.z = -0.15; ap.add(glow);
-    const N = 9, R = 2.12, blades = [];
-    const shape = new THREE.Shape();
-    shape.moveTo(0.05, -0.42);
-    shape.bezierCurveTo(-0.9, -0.62, -1.9, -0.5, -2.75, -0.05);
-    shape.bezierCurveTo(-2.8, 0.25, -2.7, 0.5, -2.55, 0.62);
-    shape.bezierCurveTo(-1.8, 0.28, -0.9, 0.3, 0.05, 0.5);
-    shape.lineTo(0.05, -0.42);
-    const bgeo = new THREE.ExtrudeGeometry(shape, { depth: 0.035, bevelEnabled: true, bevelThickness: 0.012, bevelSize: 0.012, bevelSegments: 2, curveSegments: 24 });
-    for (let i = 0; i < N; i++) {
-      const hue = i / N;
-      const mat = phys({ color: new THREE.Color().setHSL(0.70 + hue * 0.03, 0.75, 0.24 + 0.2 * Math.sin(hue * Math.PI)), metalness: 0.55, roughness: 0.22, clearcoat: 1, clearcoatRoughness: 0.08, iridescence: 0.55, iridescenceIOR: 1.4 });
-      const pivot = new THREE.Group(), a = (i / N) * Math.PI * 2;
-      pivot.position.set(Math.cos(a) * R, Math.sin(a) * R, i * 0.012); pivot.rotation.z = a + Math.PI * 0.08;
-      const m = new THREE.Mesh(bgeo, mat); m.userData.small = true; pivot.add(m); ap.add(pivot); blades.push(pivot);
-    }
-    
+    const back = new THREE.Mesh(new THREE.CircleGeometry(2.4, 72), M.dark); back.position.z = -0.2; ap.add(back);
+    const capGeo = (rad, sag, ws, hs) => { const Rs = (rad * rad + sag * sag) / (2 * sag), th = Math.asin(rad / Rs);
+      const g = new THREE.SphereGeometry(Rs, ws, hs, 0, Math.PI * 2, 0, th); g.rotateX(Math.PI / 2); g.translate(0, 0, sag - Rs); return g; };
+    const glass = new THREE.Mesh(capGeo(2.3, 0.42, 96, 24), phys({ color: 0x140838, metalness: 0.15, roughness: 0.04, clearcoat: 1, clearcoatRoughness: 0.02,
+      iridescence: 1, iridescenceIOR: 1.7, iridescenceThicknessRange: [260, 520], sheen: 0.5, sheenColor: new THREE.Color(0xB9A9FF), envMapIntensity: 1.6 }));
+    glass.userData.wire = new THREE.EdgesGeometry(capGeo(2.3, 0.42, 24, 4), 1); ap.add(glass);
+    const inner2 = new THREE.Mesh(capGeo(1.25, 0.18, 64, 12), phys({ color: 0x2B1470, metalness: 0.3, roughness: 0.05, clearcoat: 1, iridescence: 0.8, iridescenceIOR: 1.5, transparent: true, opacity: 0.5 }));
+    inner2.position.z = 0.05; inner2.userData.small = true; inner2.userData.glass = true; ap.add(inner2);
+    const retain = new THREE.Mesh(new THREE.TorusGeometry(2.32, 0.07, 12, 96), M.lilac); retain.userData.small = true; ap.add(retain);
+
     // ---- monitor on an arm (top, over the lens)
     const post = cyl(0.07, 0.07, 0.42, M.lilac, 0, model, 24); post.rotation.z = Math.PI / 2; post.position.set(-0.25, 1.3, 0.25);
     const knuckle = new THREE.Mesh(new THREE.SphereGeometry(0.12, 24, 16), M.dark); knuckle.position.set(-0.25, 1.55, 0.25); model.add(knuckle);
@@ -183,7 +171,7 @@ if (host) {
     model.traverse(o => {
       if (!o.isMesh) return;
       solids.push(o); o.material = o.material.clone(); o.material.transparent = true; o.material.opacity = 0; o.material.depthWrite = false;
-      if (o === glow || o === screen || o.userData.glass) return;
+      if (o === screen) return;
       o.getWorldPosition(wp);
       const k = clampN((wp.x / fit + span / 2) / span);          // draw from the lens back to the battery
       const g = o.userData.wire || new THREE.EdgesGeometry(o.geometry, 25);
@@ -216,16 +204,16 @@ if (host) {
       nodePts.material.opacity = 0.9 * clamp((t - 0.6) / 0.5) - 0.7 * inout((t - 2.5) / 1.0);
       dustPts.material.opacity = 0.6 * clamp((t - 0.9) / 0.6) * (1 - inout((t - 2.4) / 0.9));
       const sp = inout((t - 2.15) / 1.1);
-      if (!solidDone) { solids.forEach(m => { m.material.opacity = m.userData.glass ? sp * 0.28 : sp; }); if (sp >= 1) { solids.forEach(m => { const keep = m === glow || m.userData.glass; m.material.transparent = keep; m.material.depthWrite = !keep; m.material.opacity = m.userData.glass ? 0.28 : 1; m.material.needsUpdate = true; }); solidDone = true; } }
+      if (!solidDone) { solids.forEach(m => { m.material.opacity = m.userData.glass ? sp * 0.5 : sp; }); if (sp >= 1) { solids.forEach(m => { const keep = !!m.userData.glass; m.material.transparent = keep; m.material.depthWrite = !keep; m.material.opacity = m.userData.glass ? 0.5 : 1; m.material.needsUpdate = true; }); solidDone = true; } }
       return sp;
     }
 
     // ---- interaction
     const BASE_X = 0.16, BASE_Y = 0.62;
-    let tx = BASE_X, ty = BASE_Y, rx = BASE_X, ry = BASE_Y, open = 0.15, openT = 0.15, t0 = null, frames = 0;
+    let tx = BASE_X, ty = BASE_Y, rx = BASE_X, ry = BASE_Y, t0 = null, frames = 0;
     const hero = document.querySelector('[data-hero]') || host;
-    hero.addEventListener('mousemove', e => { const r = hero.getBoundingClientRect(); tx = BASE_X + ((e.clientY - r.top) / r.height - 0.5) * 0.5; ty = BASE_Y + ((e.clientX - r.left) / r.width - 0.5) * 0.9; openT = 0.75; });
-    hero.addEventListener('mouseleave', () => { tx = BASE_X; ty = BASE_Y; openT = 0.15; });
+    hero.addEventListener('mousemove', e => { const r = hero.getBoundingClientRect(); tx = BASE_X + ((e.clientY - r.top) / r.height - 0.5) * 0.5; ty = BASE_Y + ((e.clientX - r.left) / r.width - 0.5) * 0.9; });
+    hero.addEventListener('mouseleave', () => { tx = BASE_X; ty = BASE_Y; });
     addEventListener('resize', () => { renderer.setSize(W(), H()); camera.aspect = W() / H(); camera.updateProjectionMatrix(); });
 
     function frame(now) {
@@ -233,9 +221,6 @@ if (host) {
       const t = (now - t0) / 1000;
       const sp = blueprint(t * SPEED);
       const e = 0.84 + 0.16 * sp;
-      const sc = Math.min(1, Math.max(0, 1 - scrollY / 700));
-      open += ((openT * sc + (1 - sc) * 0.95) - open) * 0.06;
-      blades.forEach((b, i) => { b.children[0].rotation.z = 0.25 - open * 0.75 + Math.sin(t * 0.8 + i) * 0.015; });
       rx += (tx - rx) * 0.06; ry += (ty - ry) * 0.06;
       rig.rotation.x = rx; rig.rotation.y = ry + Math.sin(t * 0.3) * 0.06 - (1 - e) * 1.4;
       focus.rotation.x = (ry - BASE_Y) * 2.4 + t * 0.05; iris.rotation.x = -(rx - BASE_X) * 1.6;
