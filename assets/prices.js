@@ -88,13 +88,14 @@
   /* ---------- video pop-up: details + brief to this studio and the category leaders ---------- */
   var IND_NAMES={healthcare:'Healthcare & Medical',tech:'B2B Tech & SaaS',manufacturing:'Manufacturing & Industrial'};
   function leadersFor(v){var key=v.ind?'i:'+v.ind:v.t,label=v.ind?IND_NAMES[v.ind]:label2(v.t);
-    var list=((D.lead||{})[key]||D.lead.corporate||[]).filter(function(d){return d!==v.d;}).slice(0,3);return {list:list,label:label};}
+    var full=((D.lead||{})[key]||D.lead.corporate||[]),list=[];
+    full.forEach(function(d,i){if(d!==v.d&&d!=='lavamedia.us'&&list.length<3)list.push({d:d,n:i+1});});return {list:list,label:label};}
   function label2(t){return label(D.types,t)||'corporate video';}
   function popup(v){
     var S=studio(v.d),t=v.ti||((v.c?v.c+' — ':'')+label(D.types,v.t)),L=leadersFor(v),live=window.TCVP_BRIEF_LIVE===true,canOwn=!!S.e;
     var el=document.createElement('div');el.className='vinfo';
     var rows=(canOwn?'<label><input type="checkbox" name="studio" value="'+esc(v.d)+'" checked> '+esc(S.n)+' <em>made this video</em></label>':'')+
-      L.list.map(function(d,i){var s2=studio(d);return '<label><input type="checkbox" name="studio" value="'+esc(d)+'" checked> '+esc(s2.n)+' <em>#'+(i+1)+' in '+esc(L.label)+(s2.r<=20?' · ranked #'+s2.r+' overall':'')+'</em></label>';}).join('');
+      L.list.map(function(o){var d=o.d,s2=studio(d);return '<label><input type="checkbox" name="studio" value="'+esc(d)+'" checked> '+esc(s2.n)+' <em>#'+o.n+' in '+esc(L.label)+(s2.r<=20?' · ranked #'+s2.r+' overall':'')+'</em></label>';}).join('');
     el.innerHTML='<div class="vi-top"><div><div class="vi-price">'+esc(price(v))+'</div><div class="vi-basis">'+esc(CTX[v.ctx]||'Studio-stated price')+(v.pg?' · <a href="'+esc(v.pg)+'" target="_blank" rel="noopener nofollow">see source</a>':'')+'</div></div>'+
       '<div class="vi-actions">'+(live&&(canOwn||L.list.length)?'<button type="button" class="btn btn-dark vi-open">Order a video like this</button>':'')+'<a class="btn btn-ghost" href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="prices-popup">'+esc(S.n)+' site ↗</a></div></div>'+
       '<div class="vi-title">'+esc(t)+'</div><div class="vi-meta">'+esc(label(D.types,v.t))+(v.ind?' · '+esc(IND_NAMES[v.ind]):'')+(v.y?' · '+v.y:'')+(v.c?' · client: '+esc(v.c):'')+'</div>'+

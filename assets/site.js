@@ -131,6 +131,13 @@
   }
   window.tcvpBriefInit=initBrief;
   [].slice.call(document.querySelectorAll('.briefform')).forEach(initBrief);
+  [].slice.call(document.querySelectorAll('.brief.folded')).forEach(function(sec){
+    var b=sec.querySelector('.bf-unfold'),inn=sec.querySelector('.brief-in');
+    function open(e){if(!sec.classList.contains('folded'))return;if(e)e.preventDefault();sec.classList.remove('folded');if(b)b.setAttribute('aria-expanded','true');
+      var i=sec.querySelector('input[name=name]');if(i)setTimeout(function(){try{i.focus({preventScroll:true});}catch(_){i.focus();}},60);
+      if(typeof track==='function')track('brief_unfold',{place:(sec.id||'').replace('brief-',''),page:location.pathname});}
+    if(inn)inn.addEventListener('click',open);
+  });
 
   /* ---------- mobile nav ---------- */
   var bg=document.querySelector('.burger'),mn=document.getElementById('mnav');
