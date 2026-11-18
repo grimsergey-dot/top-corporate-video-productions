@@ -37,7 +37,8 @@
     tiers.forEach(function(t,ti){
       if(ti>0&&out.length>=MIN_VIDEOS&&studiosIn()>=4)return;   /* fallbacks only while fewer than 10 videos or 4 studios */
       var q={},order=[];t[0].forEach(function(v){var k=v.d+'|'+v.u;if(seen[k])return;seen[k]=1;if(!q[v.d]){q[v.d]=[];order.push(v.d);}q[v.d].push(v);});
-      order.forEach(function(d){q[d].sort(function(a,c){return a.lo-c.lo;});});order.sort(function(a,c){return q[a][0].lo-q[c][0].lo;});  /* neutral order: by price, not by studio */
+      var key=(ti===0||!b)?function(v){return v.lo;}:function(v){return dist(v,b);};  /* in budget: cheapest first; fallbacks: closest to the budget first */
+      order.forEach(function(d){q[d].sort(function(a,c){return key(a)-key(c);});});order.sort(function(a,c){return key(q[a][0])-key(q[c][0]);});
       for(var round=0,more=true;more;round++){more=false;order.forEach(function(d){var v=q[d][round];if(!v)return;more=true;  /* round-robin across studios */
         var o={v:v,tag:t[1]};if((cnt[d]||0)<PER_STUDIO){cnt[d]=(cnt[d]||0)+1;out.push(o);}else rest.push(o);});}
     });
@@ -53,11 +54,11 @@
     if(P.length){var lo=Math.min.apply(null,P.map(function(x){return x.lo;})),hi=Math.max.apply(null,P.map(function(x){return x.hi||x.lo;}));$('pc-rng').textContent=lo===hi?money(lo):money(lo)+'–'+money(hi);}else $('pc-rng').textContent='—';
     var n={};P.forEach(function(x){n[x.d]=1;});var c=Object.keys(n).length;$('pc-nst').textContent=c;
     $('pc-nst-s').textContent=c?'with an exact price that matches':'Try a broader filter';}
-  function vcard(o){var v=o.v,S=studio(v.d),t=v.ti||((v.c?v.c+' — ':'')+label(D.types,v.t));
+  function vcard(o,i){var v=o.v,S=studio(v.d),t=v.ti||((v.c?v.c+' — ':'')+label(D.types,v.t));
     var attrs=(v.em?' data-video="'+esc(v.em)+'" data-title="'+esc(t)+'" data-price="1"':'')+' data-cursor="play"';
     var tagc=o.tag==='Not in our ranking'?' out':(o.tag==='Close to your budget'?' near':'');
     return '<article class="pc-vc">'+
-      '<a class="pc-thumb" href="'+esc(v.u)+'" target="_blank" rel="noopener nofollow" data-studio="'+esc(S.n)+'"'+attrs+'>'+
+      '<a class="pc-thumb" href="'+esc(v.u)+'" target="_blank" rel="noopener nofollow" data-i="'+i+'" data-studio="'+esc(S.n)+'"'+attrs+'>'+
       (v.th?'<img src="'+esc(v.th)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">':'')+
       '<span class="pc-play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg></span>'+
       (o.tag?'<span class="pc-tag'+tagc+'">'+esc(o.tag)+'</span>':'')+'</a>'+
@@ -66,6 +67,7 @@
       '<a class="pc-by" href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="prices-video">'+esc(S.n)+(S.r<=20?' <em>#'+S.r+'</em>':'')+' ↗</a></div></article>';}
   function renderVideos(){var list=videos(),box=$('pc-videos');
     if(!list.length){box.innerHTML='<div class="pc-empty-box">No priced videos for this combination yet. We add new ones every week.</div>';$('pc-videos-more').hidden=true;return;}
+    CUR_VIDEOS=list.slice(0,lim.v).map(function(o){return o.v;});
     box.innerHTML=list.slice(0,lim.v).map(vcard).join('')+(list.length<MIN_VIDEOS?'<div class="pc-empty-box pc-soon">Only '+list.length+' video'+(list.length>1?'s':'')+' with an exact, studio-stated price so far. Most studios publish only “from” prices for this kind of work; we add new priced videos as they appear.</div>':'');
     $('pc-videos-more').hidden=list.length<=lim.v;}
   function studiosFit(){var m={};pool().forEach(function(x){var r=m[x.d]||(m[x.d]={d:x.d,n:0,lo:Infinity,hi:0,v:0});r.n++;if(x.u)r.v++;r.lo=Math.min(r.lo,x.lo);r.hi=Math.max(r.hi,x.hi||x.lo);});
@@ -83,6 +85,35 @@
       rows.slice(0,lim.t).map(function(p){var S=studio(p.d);return '<tr><td><a href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="prices-table">'+esc(S.n)+'</a></td><td>'+esc(p.w)+'</td><td class="num">'+esc(price(p))+'</td><td>'+esc(label(D.types,p.t))+'</td><td>'+(p.ex?'<a href="'+esc(p.ex)+'" target="_blank" rel="noopener nofollow">example</a> · ':'')+(p.src?'<a href="'+esc(p.src)+'" target="_blank" rel="noopener nofollow">page</a>':'')+'</td></tr>';}).join('')+'</tbody></table></div>'
       :'<div class="pc-empty-box">No fixed package prices for this combination yet.</div>';
     $('pc-table-more').hidden=rows.length<=lim.t;}
+  /* ---------- video pop-up: details + brief to this studio and the category leaders ---------- */
+  var IND_NAMES={healthcare:'Healthcare & Medical',tech:'B2B Tech & SaaS',manufacturing:'Manufacturing & Industrial'};
+  function leadersFor(v){var key=v.ind?'i:'+v.ind:v.t,label=v.ind?IND_NAMES[v.ind]:label2(v.t);
+    var list=((D.lead||{})[key]||D.lead.corporate||[]).filter(function(d){return d!==v.d;}).slice(0,3);return {list:list,label:label};}
+  function label2(t){return label(D.types,t)||'corporate video';}
+  function popup(v){
+    var S=studio(v.d),t=v.ti||((v.c?v.c+' — ':'')+label(D.types,v.t)),L=leadersFor(v),live=window.TCVP_BRIEF_LIVE===true,canOwn=!!S.e;
+    var el=document.createElement('div');el.className='vinfo';
+    var rows=(canOwn?'<label><input type="checkbox" name="studio" value="'+esc(v.d)+'" checked> '+esc(S.n)+' <em>made this video</em></label>':'')+
+      L.list.map(function(d,i){var s2=studio(d);return '<label><input type="checkbox" name="studio" value="'+esc(d)+'" checked> '+esc(s2.n)+' <em>#'+(i+1)+' in '+esc(L.label)+(s2.r<=20?' · ranked #'+s2.r+' overall':'')+'</em></label>';}).join('');
+    el.innerHTML='<div class="vi-top"><div><div class="vi-price">'+esc(price(v))+'</div><div class="vi-basis">'+esc(CTX[v.ctx]||'Studio-stated price')+(v.pg?' · <a href="'+esc(v.pg)+'" target="_blank" rel="noopener nofollow">see source</a>':'')+'</div></div>'+
+      '<div class="vi-actions">'+(live&&(canOwn||L.list.length)?'<button type="button" class="btn btn-dark vi-open">Order a video like this</button>':'')+'<a class="btn btn-ghost" href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="prices-popup">'+esc(S.n)+' site ↗</a></div></div>'+
+      '<div class="vi-title">'+esc(t)+'</div><div class="vi-meta">'+esc(label(D.types,v.t))+(v.ind?' · '+esc(IND_NAMES[v.ind]):'')+(v.y?' · '+v.y:'')+(v.c?' · client: '+esc(v.c):'')+'</div>'+
+      '<div class="vi-studio">Made by <a href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="prices-popup">'+esc(S.n)+'</a>'+(S.r<=20?' · #'+S.r+' in the 2026 ranking':(S.out?' · not in our ranking':''))+(v.em?'':' · <a href="'+esc(v.u)+'" target="_blank" rel="noopener nofollow">watch on the studio’s site ↗</a>')+'</div>'+
+      '<div class="vi-note">The price is what the studio says this video or package cost. A similar video can cost more or less depending on shoot days, locations, travel, crew, talent, usage rights and deadlines.</div>'+
+      (live?'<form class="vi-brief briefform" data-uid="prices-video" data-theme="light" data-context="'+esc('Re: video “'+t+'” ('+price(v)+') by '+S.n+' — seen on the prices page')+'" novalidate>'+
+        '<div class="bf-row"><label>Your name<input name="name" autocomplete="name" required maxlength="80"></label><label>Company<input name="company" autocomplete="organization" required maxlength="120"></label></div>'+
+        '<label>Work email<input name="email" type="email" autocomplete="email" required maxlength="160"></label>'+
+        '<label>Message<textarea name="details" maxlength="1500" placeholder="What do you need, by when, and roughly what budget?">I’d like a video similar to “'+esc(t)+'”. </textarea></label>'+
+        '<div class="vi-to"><h4>Send to</h4>'+rows+'</div>'+
+        '<input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"><div class="cf-turnstile-slot"></div>'+
+        '<div class="bf-foot"><button type="submit" class="btn btn-dark">Send brief <span class="bf-count"></span></button><span class="bf-status" role="status" aria-live="polite"></span></div>'+
+        '<p class="bf-legal">You will get an email to confirm before anything is sent. Your brief goes only to the studios you tick; a copy goes to the publisher of this ranking, Lava Media.</p></form>':'');
+    var ob=el.querySelector('.vi-open');if(ob)ob.addEventListener('click',function(){el.classList.add('brief-open');ob.remove();var f=el.querySelector('form');if(f&&!f._init){f._init=1;window.tcvpBriefInit&&window.tcvpBriefInit(f);}setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'nearest'});var i=el.querySelector('input[name=name]');if(i)i.focus();},50);track('price_brief_open',{studio:S.n});});
+    window.tcvpModal.open(v.em||'',t,el);track('price_video_open',{studio:S.n,has_video:!!v.em});
+  }
+  $('pc-videos').addEventListener('click',function(e){var a=e.target.closest('.pc-thumb');if(!a||!window.tcvpModal)return;var i=+a.getAttribute('data-i');var v=CUR_VIDEOS[i];if(!v)return;e.preventDefault();e.stopPropagation();popup(v);});
+  var CUR_VIDEOS=[];
+
   function render(){renderSummary();renderVideos();renderStudios();renderTable();}
 
   /* ---------- state & events ---------- */

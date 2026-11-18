@@ -72,11 +72,17 @@
   var modal=document.getElementById('vmodal');
   if(modal){
     var frame=modal.querySelector('.vframe');
-    function open(src,title){frame.innerHTML='<iframe src="'+src+'" title="'+(title||'Showreel')+'" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';modal.hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(function(){modal.classList.add('show');});}
-    function close(){modal.classList.remove('show');setTimeout(function(){modal.hidden=true;frame.innerHTML='';document.body.style.overflow='';},300);}
+    function open(src,title,extra){
+      frame.innerHTML=src?'<iframe src="'+src+'" title="'+(title||'Showreel')+'" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>':'';frame.hidden=!src;
+      var old=modal.querySelector('.vinfo');if(old)old.remove();
+      if(extra){modal.appendChild(extra);modal.classList.add('has-info');}else modal.classList.remove('has-info');
+      modal.hidden=false;document.body.style.overflow='hidden';requestAnimationFrame(function(){modal.classList.add('show');});}
+    function close(){modal.classList.remove('show');setTimeout(function(){modal.hidden=true;frame.innerHTML='';var o=modal.querySelector('.vinfo');if(o)o.remove();document.body.style.overflow='';},300);}
+    window.tcvpModal={open:open,close:close};
     document.addEventListener('click',function(e){var el=e.target.closest('[data-video]');if(!el)return;
       var v=el.getAttribute('data-video');if(!v)return;e.preventDefault();open(v,el.getAttribute('data-title'));track(el.hasAttribute('data-price')?'price_video_play':'reel_play',{studio:el.getAttribute('data-studio')||''});});
     modal.addEventListener('click',function(e){if(e.target===modal||e.target.closest('.vclose'))close();});
+    modal.addEventListener('mousedown',function(e){if(e.target.closest('.vinfo'))e.stopPropagation();});
     addEventListener('keydown',function(e){if(e.key==='Escape'&&!modal.hidden)close();});
   }
 
@@ -95,34 +101,36 @@
       .finally(function(){btn.disabled=false;});
   });}
 
-  /* ---------- brief forms ---------- */
-  var BRIEF_API='https://tcvp-briefs.lava-media-usa.workers.dev/brief', TS_KEY='0x4AAAAAAGFxLy0uhEwTKJCC', t0=Date.now();
-  var forms=[].slice.call(document.querySelectorAll('.briefform'));
-  if(forms.length){
-    window.__tsReady=function(){forms.forEach(function(f){var slot=f.querySelector('.cf-turnstile-slot');if(slot&&!slot.dataset.w){slot.dataset.w=turnstile.render(slot,{sitekey:TS_KEY,theme:'dark',size:'flexible',action:'brief'});}});};
-    var sc=document.createElement('script');sc.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__tsReady';sc.async=true;sc.defer=true;document.head.appendChild(sc);
-    forms.forEach(function(f){
-      var boxes=[].slice.call(f.querySelectorAll('input[name=studio]')),cnt=f.querySelector('.bf-count'),st=f.querySelector('.bf-status');
-      function upd(){var n=boxes.filter(function(b){return b.checked;}).length;cnt.textContent='to '+n+' studio'+(n===1?'':'s');}
-      f.querySelectorAll('.preset').forEach(function(p){p.addEventListener('click',function(){var n=+p.dataset.n;f.querySelectorAll('.preset').forEach(function(x){x.classList.toggle('on',x===p);});var k=0;boxes.forEach(function(b,i){b.checked=!b.disabled&&i<n;});upd();});});
-      boxes.forEach(function(b){b.addEventListener('change',function(){f.querySelectorAll('.preset').forEach(function(x){x.classList.remove('on');});upd();});});upd();
-      f.addEventListener('submit',function(e){e.preventDefault();
-        var fd=new FormData(f),sel=boxes.filter(function(b){return b.checked;}).map(function(b){return b.value;});
-        if(!fd.get('name')||!fd.get('company')||!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(fd.get('email')||'')){st.textContent='Please fill in your name, company and a valid work email.';st.className='bf-status err';return;}
-        if(!sel.length){st.textContent='Choose at least one studio.';st.className='bf-status err';return;}
-        var slot=f.querySelector('.cf-turnstile-slot'),token=(window.turnstile&&slot.dataset.w)?turnstile.getResponse(slot.dataset.w):'';
-        if(!token){st.textContent='Please complete the security check above.';st.className='bf-status err';return;}
-        var btn=f.querySelector('button[type=submit]');btn.disabled=true;st.textContent='Sending…';st.className='bf-status';
-        var details=(fd.get('vtype')?'Video type: '+fd.get('vtype')+'\n':'')+(fd.get('details')||'');
-        fetch(BRIEF_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:fd.get('name'),company:fd.get('company'),email:fd.get('email'),budget:fd.get('budget'),details:details,studios:sel,website:fd.get('website'),t0:t0,token:token,page:location.pathname,pageTitle:document.title})})
-          .then(function(r){return r.json();}).then(function(j){
-            if(j.ok){f.reset();upd();st.innerHTML='<b>Almost done!</b> Check your inbox and click the confirmation link — your brief goes out after that.';st.className='bf-status ok';track('brief_submit',{studios:sel.length,page:location.pathname});}
-            else{var m={captcha:'Security check failed — please try again.',email:'Please use a valid work email address.',rate:'Too many briefs from this connection today — please try again tomorrow.',busy:'We are at today\'s limit — please try again tomorrow.',timing:'Please take a moment to review the form and send again.',studios:'Choose at least one studio.',fields:'Please fill in your name, company and a valid work email.',links:'Please remove extra links from your message.',content:'Your message looks like spam — please rephrase.'};st.textContent=m[j.error]||'Something went wrong — please try again.';st.className='bf-status err';}
-          }).catch(function(){st.textContent='Network error — please try again.';st.className='bf-status err';})
-          .finally(function(){btn.disabled=false;try{turnstile.reset(slot.dataset.w);}catch(e){}});
-      });
+  /* ---------- brief forms (reusable: ranking pages + the video pop-up on the prices page) ---------- */
+  var BRIEF_API='https://tcvp-briefs.lava-media-usa.workers.dev/brief', TS_KEY='0x4AAAAAAGFxLy0uhEwTKJCC', t0=Date.now(), tsAsked=false, tsWait=[];
+  function tsRender(f){var slot=f.querySelector('.cf-turnstile-slot');if(slot&&!slot.dataset.w&&window.turnstile){slot.dataset.w=turnstile.render(slot,{sitekey:TS_KEY,theme:f.getAttribute('data-theme')||'dark',size:'flexible',action:'brief'});}}
+  function tsNeed(f){if(window.turnstile){tsRender(f);return;}tsWait.push(f);if(tsAsked)return;tsAsked=true;
+    window.__tsReady=function(){tsWait.forEach(tsRender);tsWait=[];};
+    var sc=document.createElement('script');sc.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__tsReady';sc.async=true;sc.defer=true;document.head.appendChild(sc);}
+  function initBrief(f){
+    var boxes=[].slice.call(f.querySelectorAll('input[name=studio]')),cnt=f.querySelector('.bf-count'),st=f.querySelector('.bf-status');
+    function upd(){var n=boxes.filter(function(b){return b.checked;}).length;if(cnt)cnt.textContent='to '+n+' studio'+(n===1?'':'s');}
+    f.querySelectorAll('.preset').forEach(function(p){p.addEventListener('click',function(){var n=+p.dataset.n;f.querySelectorAll('.preset').forEach(function(x){x.classList.toggle('on',x===p);});boxes.forEach(function(b,i){b.checked=!b.disabled&&i<n;});upd();});});
+    boxes.forEach(function(b){b.addEventListener('change',function(){f.querySelectorAll('.preset').forEach(function(x){x.classList.remove('on');});upd();});});upd();
+    tsNeed(f);
+    f.addEventListener('submit',function(e){e.preventDefault();
+      var fd=new FormData(f),sel=boxes.filter(function(b){return b.checked;}).map(function(b){return b.value;});
+      if(!fd.get('name')||!fd.get('company')||!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(fd.get('email')||'')){st.textContent='Please fill in your name, company and a valid work email.';st.className='bf-status err';return;}
+      if(!sel.length){st.textContent='Choose at least one studio.';st.className='bf-status err';return;}
+      var slot=f.querySelector('.cf-turnstile-slot'),token=(window.turnstile&&slot&&slot.dataset.w)?turnstile.getResponse(slot.dataset.w):'';
+      if(!token){st.textContent='Please complete the security check above.';st.className='bf-status err';return;}
+      var btn=f.querySelector('button[type=submit]');btn.disabled=true;st.textContent='Sending…';st.className='bf-status';
+      var details=(fd.get('vtype')?'Video type: '+fd.get('vtype')+'\n':'')+(f.getAttribute('data-context')?f.getAttribute('data-context')+'\n\n':'')+(fd.get('details')||'');
+      fetch(BRIEF_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:fd.get('name'),company:fd.get('company'),email:fd.get('email'),budget:fd.get('budget')||'',details:details,studios:sel,website:fd.get('website'),t0:t0,token:token,page:location.pathname,pageTitle:document.title})})
+        .then(function(r){return r.json();}).then(function(j){
+          if(j.ok){f.reset();upd();st.innerHTML='<b>Almost done!</b> Check your inbox and click the confirmation link — your brief goes out after that.';st.className='bf-status ok';track('brief_submit',{studios:sel.length,page:location.pathname,place:f.getAttribute('data-uid')||''});}
+          else{var m={captcha:'Security check failed — please try again.',email:'Please use a valid work email address.',rate:'Too many briefs from this connection today — please try again tomorrow.',busy:'We are at today\'s limit — please try again tomorrow.',timing:'Please take a moment to review the form and send again.',studios:'Choose at least one studio.',fields:'Please fill in your name, company and a valid work email.',links:'Please remove extra links from your message.',content:'Your message looks like spam — please rephrase.'};st.textContent=m[j.error]||'Something went wrong — please try again.';st.className='bf-status err';}
+        }).catch(function(){st.textContent='Network error — please try again.';st.className='bf-status err';})
+        .finally(function(){btn.disabled=false;try{turnstile.reset(slot.dataset.w);}catch(e){}});
     });
   }
+  window.tcvpBriefInit=initBrief;
+  [].slice.call(document.querySelectorAll('.briefform')).forEach(initBrief);
 
   /* ---------- mobile nav ---------- */
   var bg=document.querySelector('.burger'),mn=document.getElementById('mnav');

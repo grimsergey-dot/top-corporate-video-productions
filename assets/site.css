@@ -462,3 +462,35 @@ img,svg,video,iframe{max-width:100%}
 #cursor.is-play .dot svg{opacity:1;transform:none;transition-delay:.08s}
 #cursor.is-down .dot{transform:scale(.9)}
 @media (hover:hover) and (pointer:fine){.reel .playstatic,.thumb i,.pc-play{display:none}[data-cursor=play]{cursor:none}}
+.pc-note{background:#fff;border-left:4px solid #5B3BEB;border-radius:16px;padding:16px 20px;margin:0 0 22px;font-size:14.5px;line-height:1.6;color:#3D2C6B}.pc-note b{color:#1C0A45}
+/* video pop-up with details + brief (prices page) */
+#vmodal.has-info{flex-direction:column;gap:14px;overflow-y:auto;padding:28px 0}
+#vmodal.has-info .vframe{flex:none}
+.vinfo{width:min(1000px,92vw);background:#fff;border-radius:22px;padding:22px 26px;color:#1C0A45;flex:none}
+.vi-top{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.vi-price{font:600 30px 'Unbounded',sans-serif;letter-spacing:-.02em}
+.vi-basis{font-size:13px;color:#5B3BEB;font-weight:600;margin-top:4px}.vi-basis a{color:#5B3BEB}
+.vi-title{font-size:18px;font-weight:600;margin:12px 0 4px}.vi-meta{font-size:14px;color:#4A3B78}
+.vi-studio{font-size:14px;margin-top:10px}.vi-studio a{font-weight:600;color:#1C0A45}
+.vi-actions{display:flex;gap:10px;flex-wrap:wrap}
+.vi-note{font-size:12.5px;color:#6B5C99;line-height:1.5;margin-top:12px}
+.vi-brief{margin-top:18px;padding-top:18px;border-top:1px solid #EEE9FF;display:none}
+.vinfo.brief-open .vi-brief{display:block}
+.vi-brief .bf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vi-brief label{display:flex;flex-direction:column;gap:6px;font:600 12px Inter,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#5B3BEB;margin-bottom:12px}
+.vi-brief input,.vi-brief textarea{font:500 15px Inter,sans-serif;color:#1C0A45;border:1.5px solid #DCD3FF;border-radius:12px;padding:12px 14px;background:#FBFAFF;text-transform:none;letter-spacing:0}
+.vi-brief textarea{min-height:84px;resize:vertical}
+.vi-to{margin:6px 0 12px}.vi-to h4{margin:0 0 8px;font:600 12px Inter,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#5B3BEB}
+.vi-to label{flex-direction:row;align-items:center;gap:10px;text-transform:none;letter-spacing:0;font:500 15px Inter,sans-serif;color:#1C0A45;margin:0 0 6px}
+.vi-to label em{font-style:normal;font-size:12.5px;color:#6B5C99}
+.vi-brief .bf-foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.vi-brief .bf-status{font-size:14px}.vi-brief .bf-status.err{color:#C0264B}.vi-brief .bf-status.ok{color:#1A7F4B}
+.vi-brief .bf-legal{font-size:12px;color:#6B5C99;margin:10px 0 0}
+@media (max-width:720px){.vi-brief .bf-row{grid-template-columns:1fr}.vinfo{padding:18px}.vi-price{font-size:24px}}
+.vinfo{width:min(1200px,86vw)}
+#vmodal.has-info .vbox{width:min(1200px,86vw);max-height:62vh}
+.vi-brief.briefform input,.vi-brief.briefform textarea{color:#1C0A45;background:#FBFAFF;border-color:#DCD3FF}
+.vi-brief.briefform input:focus,.vi-brief.briefform textarea:focus{background:#fff;border-color:#5B3BEB}
+.vi-brief.briefform input[type=checkbox]{width:18px;height:18px;padding:0;accent-color:#4B2AD8}
+@media (max-width:720px){.vinfo,#vmodal.has-info .vbox{width:94vw}}
+.vi-brief .btn-dark{background:#1C0A45;color:#fff}.vi-brief .btn-dark:hover{background:#4B2AD8;color:#fff}
