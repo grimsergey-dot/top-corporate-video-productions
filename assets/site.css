@@ -509,3 +509,6 @@ img,svg,video,iframe{max-width:100%}
 .brief.folded .brief-copy .chip{margin-bottom:12px}
 .brief.compact.folded{margin-bottom:70px}
 @media (max-width:720px){.brief.folded .brief-in{grid-template-columns:1fr;padding:24px 20px;gap:18px}.brief.folded h2{font-size:24px}.brief.folded .bf-unfold{justify-content:space-between;width:100%}}
+
+.pc-ctrl label[hidden]{display:none!important}
+.pc-ctrl.pc-ctrl2{grid-template-columns:repeat(2,minmax(0,1fr)) auto}@media (max-width:720px){.pc-ctrl.pc-ctrl2{grid-template-columns:1fr}}

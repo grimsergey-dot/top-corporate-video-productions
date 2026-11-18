@@ -119,7 +119,7 @@
 
   /* ---------- state & events ---------- */
   function fromUrl(){var q=new URLSearchParams(location.search);['type','ind','budget'].forEach(function(k){var v=q.get(k),el=form.elements[k];if(v&&el&&el.querySelector('option[value="'+v.replace(/"/g,'')+'"]'))el.value=v;});}
-  function toUrl(){var s=st(),q=new URLSearchParams();Object.keys(s).forEach(function(k){if(s[k])q.set(k,s[k]);});history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')+location.hash);}
+  function toUrl(){var s=st(),q=new URLSearchParams();Object.keys(s).forEach(function(k){var el=form.elements[k];if(s[k]&&!(el&&el.closest('[hidden]')))q.set(k,s[k]);});history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')+location.hash);}
   form.addEventListener('change',function(){lim={v:PAGE,s:12,t:20};toUrl();render();var s=st();track('price_filter',{video_type:s.type||'any',industry:s.ind||'any',budget:s.budget||'any'});});
   $('pc-reset').addEventListener('click',function(){form.reset();lim={v:PAGE,s:12,t:20};toUrl();render();});
   $('pc-videos-more').addEventListener('click',function(){lim.v+=PAGE;renderVideos();});
