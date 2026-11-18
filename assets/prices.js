@@ -89,7 +89,7 @@
   var IND_NAMES={healthcare:'Healthcare & Medical',tech:'B2B Tech & SaaS',manufacturing:'Manufacturing & Industrial'};
   function leadersFor(v){var key=v.ind?'i:'+v.ind:v.t,label=v.ind?IND_NAMES[v.ind]:label2(v.t);
     var full=((D.lead||{})[key]||D.lead.corporate||[]),list=[];
-    full.forEach(function(d,i){if(d!==v.d)list.push({d:d,n:i+1});});return {list:list.slice(0,3),full:list,label:label};}
+    var LP=(D.leadpos||{})[key]||{};full.forEach(function(d,i){if(d!==v.d)list.push({d:d,n:LP[d]||i+1});});return {list:list.slice(0,3),full:list,label:label};}
   function label2(t){return label(D.types,t)||'corporate video';}
   function popup(v){
     var S=studio(v.d),t=v.ti||((v.c?v.c+' — ':'')+label(D.types,v.t)),L=leadersFor(v),live=window.TCVP_BRIEF_LIVE===true,canOwn=!!S.e;
