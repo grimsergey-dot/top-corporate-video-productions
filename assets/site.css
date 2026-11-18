@@ -149,7 +149,7 @@ section{margin-bottom:130px}
 .related h2{font-size:24px;margin:0 0 18px}
 /* footer */
 .ftr{position:relative;z-index:1;background:#1C0A45;color:#EDE7FF}
-.ftr-in{max-width:1440px;margin:0 auto;padding:72px 64px 40px;display:grid;grid-template-columns:minmax(0,1.2fr) repeat(4,minmax(0,1fr));gap:40px}
+.ftr-in{max-width:1440px;margin:0 auto;padding:72px 64px 40px;display:grid;grid-template-columns:minmax(0,1.15fr) repeat(5,minmax(0,1fr));gap:32px}
 .ftr h4{margin:0 0 14px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#B9A9FF;font-weight:600}
 .ftr a{display:block;color:#EDE7FF;text-decoration:none;font-size:14px;padding:5px 0}.ftr a:hover{color:#fff;text-decoration:underline}
 .ftr-b{max-width:1440px;margin:0 auto;padding:22px 64px 36px;border-top:1px solid #3A2770;font-size:13px;color:#B9A9FF;display:flex;justify-content:space-between;gap:24px}
@@ -274,7 +274,7 @@ img,svg,video,iframe{max-width:100%}
   .acc{grid-template-columns:70px minmax(0,1fr) 110px 48px;gap:16px}
   .acc .t{font-size:22px}
   .accbody div{padding-left:86px}
-  .ftr-in{grid-template-columns:repeat(2,minmax(0,1fr));padding:56px 32px 32px}
+  .ftr-in{grid-template-columns:repeat(3,minmax(0,1fr));padding:56px 32px 32px}
   .ftr-b{flex-direction:column;padding:20px 32px 32px}
   .phero{grid-template-columns:1fr;gap:28px}
   .phero h1{font-size:46px}
