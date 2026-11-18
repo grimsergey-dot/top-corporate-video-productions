@@ -89,13 +89,18 @@
   var IND_NAMES={healthcare:'Healthcare & Medical',tech:'B2B Tech & SaaS',manufacturing:'Manufacturing & Industrial'};
   function leadersFor(v){var key=v.ind?'i:'+v.ind:v.t,label=v.ind?IND_NAMES[v.ind]:label2(v.t);
     var full=((D.lead||{})[key]||D.lead.corporate||[]),list=[];
-    full.forEach(function(d,i){if(d!==v.d&&list.length<3)list.push({d:d,n:i+1});});return {list:list,label:label};}
+    full.forEach(function(d,i){if(d!==v.d)list.push({d:d,n:i+1});});return {list:list.slice(0,3),full:list,label:label};}
   function label2(t){return label(D.types,t)||'corporate video';}
   function popup(v){
     var S=studio(v.d),t=v.ti||((v.c?v.c+' — ':'')+label(D.types,v.t)),L=leadersFor(v),live=window.TCVP_BRIEF_LIVE===true,canOwn=!!S.e;
     var el=document.createElement('div');el.className='vinfo';
     var rows=(canOwn?'<label><input type="checkbox" name="studio" value="'+esc(v.d)+'" checked> '+esc(S.n)+' <em>made this video</em></label>':'')+
       L.list.map(function(o){var d=o.d,s2=studio(d);return '<label><input type="checkbox" name="studio" value="'+esc(d)+'" checked> '+esc(s2.n)+' <em>#'+o.n+' in '+esc(L.label)+(s2.r<=20?' · ranked #'+s2.r+' overall':'')+'</em></label>';}).join('');
+    var extra=L.full.filter(function(o){return L.list.indexOf(o)<0;});
+    if(extra.length){var cap=15-(canOwn?1:0);
+      rows+='<details class="vi-more"><summary>Send to more studios in '+esc(L.label)+'</summary><div class="vi-presets" role="group" aria-label="How many studios">'+
+        (function(){var N=L.full.length,ps=[3,5,10,15].filter(function(n){return n<=N;});if(ps[ps.length-1]<N&&N<15)ps.push(N);return ps.map(function(n){return '<button type="button" class="vi-preset'+(n===3?' on':'')+'" data-n="'+Math.min(n,cap)+'">'+(n===N&&[3,5,10,15].indexOf(n)<0?'All '+n:'Top '+n)+'</button>';}).join('');})()+'</div>'+
+        extra.map(function(o){var s2=studio(o.d);return '<label><input type="checkbox" name="studio" value="'+esc(o.d)+'"> '+esc(s2.n)+' <em>#'+o.n+' in '+esc(L.label)+(s2.r<=20?' · ranked #'+s2.r+' overall':'')+'</em></label>';}).join('')+'</details>';}
     el.innerHTML='<div class="vi-top"><div><div class="vi-price">'+esc(price(v))+'</div><div class="vi-basis">'+esc(CTX[v.ctx]||'Studio-stated price')+(v.pg?' · <a href="'+esc(v.pg)+'" target="_blank" rel="noopener nofollow">see source</a>':'')+'</div></div>'+
       '<div class="vi-actions">'+(live&&(canOwn||L.list.length)?'<button type="button" class="btn btn-dark vi-open">Order a video like this</button>':'')+'<a class="btn btn-ghost" href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="prices-popup">'+esc(S.n)+' site ↗</a></div></div>'+
       '<div class="vi-title">'+esc(t)+'</div><div class="vi-meta">'+esc(label(D.types,v.t))+(v.ind?' · '+esc(IND_NAMES[v.ind]):'')+(v.y?' · '+v.y:'')+(v.c?' · client: '+esc(v.c):'')+'</div>'+
@@ -110,6 +115,9 @@
         '<div class="bf-foot"><button type="submit" class="btn btn-dark">Send brief <span class="bf-count"></span></button><span class="bf-status" role="status" aria-live="polite"></span></div>'+
         '<p class="bf-legal">You will get an email to confirm before anything is sent. Your brief goes only to the studios you tick; a copy goes to the publisher of this ranking, Lava Media.</p></form>':'');
     var ob=el.querySelector('.vi-open');if(ob)ob.addEventListener('click',function(){el.classList.add('brief-open');ob.remove();var f=el.querySelector('form');if(f&&!f._init){f._init=1;window.tcvpBriefInit&&window.tcvpBriefInit(f);}setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'nearest'});var i=el.querySelector('input[name=name]');if(i)i.focus();},50);track('price_brief_open',{studio:S.n});});
+    el.addEventListener('click',function(e){var b=e.target.closest('.vi-preset');if(!b)return;var n=+b.getAttribute('data-n'),i=0;
+      el.querySelectorAll('.vi-preset').forEach(function(x){x.classList.toggle('on',x===b);});
+      L.full.forEach(function(o){var c=el.querySelector('input[name=studio][value="'+o.d+'"]');if(!c)return;c.checked=i<n;i++;c.dispatchEvent(new Event('change',{bubbles:true}));});});
     window.tcvpModal.open(v.em||'',t,el);track('price_video_open',{studio:S.n,has_video:!!v.em});
   }
   $('pc-videos').addEventListener('click',function(e){var a=e.target.closest('.pc-thumb');if(!a||!window.tcvpModal)return;var i=+a.getAttribute('data-i');var v=CUR_VIDEOS[i];if(!v)return;e.preventDefault();e.stopPropagation();popup(v);});
