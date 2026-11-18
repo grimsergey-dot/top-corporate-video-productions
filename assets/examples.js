@@ -12,7 +12,7 @@
   function st(d){return D.st[d]||{n:d,u:'https://'+d,r:999,e:0};}
   function leadersFor(v){var key=IND[v.ind]?'i:'+v.ind:(TKEY[v.cat]||'corporate'),lab=IND[v.ind]||TLAB[TKEY[v.cat]||'corporate'];
     var full=(D.lead[key]||D.lead.corporate||[]),list=[];
-    full.forEach(function(d,i){if(d!==v.d&&d!=='lavamedia.us'&&st(d).e&&list.length<3)list.push({d:d,n:i+1});});return{list:list,label:lab};}
+    full.forEach(function(d,i){if(d!==v.d&&st(d).e&&list.length<3)list.push({d:d,n:i+1});});return{list:list,label:lab};}
   function popup(v){
     var S=st(v.d),L=leadersFor(v),live=window.TCVP_BRIEF_LIVE===true,canOwn=!!S.e,t=v.t;
     var pr=v.p?money(v.p[0])+(v.p[1]&&v.p[1]!==v.p[0]?' – '+money(v.p[1]):''):'';
