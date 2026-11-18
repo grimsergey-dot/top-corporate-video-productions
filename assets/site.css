@@ -534,3 +534,7 @@ img,svg,video,iframe{max-width:100%}
 .vi-presets{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px}
 .vi-preset{height:32px;padding:0 14px;border-radius:999px;border:1.5px solid #CFC3FF;background:#fff;color:#1C0A45;font:600 13px Inter,sans-serif;cursor:pointer;transition:all .2s}
 .vi-preset.on,.vi-preset:hover{background:#1C0A45;color:#fff;border-color:#1C0A45}
+
+.pub-note{margin:-6px 0 34px;padding:12px 16px;border-left:3px solid #5B3BEB;background:#EDE7FF;border-radius:0 12px 12px 0;font-size:14px;line-height:1.5;color:#2B1470;max-width:900px}
+.chip-pub{background:#1C0A45!important;color:#F5F2FF!important}
+.vi-nomail{margin:0 0 10px;font-size:14px;line-height:1.5;color:#4A3B78;background:#F5F2FF;border-radius:10px;padding:10px 12px}.vi-nomail a{color:#4B2AD8;font-weight:600}

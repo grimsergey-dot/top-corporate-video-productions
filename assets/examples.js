@@ -17,7 +17,7 @@
     var S=st(v.d),L=leadersFor(v),live=window.TCVP_BRIEF_LIVE===true,canOwn=!!S.e,t=v.t;
     var pr=v.p?money(v.p[0])+(v.p[1]&&v.p[1]!==v.p[0]?' – '+money(v.p[1]):''):'';
     var el=document.createElement('div');el.className='vinfo';
-    var rows=(canOwn?'<label><input type="checkbox" name="studio" value="'+esc(v.d)+'" checked> '+esc(S.n)+' <em>made this video</em></label>':'')+
+    var rows=(canOwn?'<label><input type="checkbox" name="studio" value="'+esc(v.d)+'" checked> '+esc(S.n)+' <em>made this video</em></label>':'<p class="vi-nomail">'+esc(S.n)+' made this video but publishes no email address, so we can’t forward your brief to them. <a href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="examples-popup">Contact them on their site ↗</a></p>')+
       L.list.map(function(o){var s2=st(o.d);return '<label><input type="checkbox" name="studio" value="'+esc(o.d)+'" checked> '+esc(s2.n)+' <em>#'+o.n+' in '+esc(L.label)+(s2.r<=20?' · ranked #'+s2.r+' overall':'')+'</em></label>';}).join('');
     var extra=L.full.filter(function(o){return L.list.indexOf(o)<0;});
     if(extra.length){var cap=15-(canOwn?1:0);
