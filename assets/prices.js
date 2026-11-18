@@ -54,7 +54,7 @@
     var n={};P.forEach(function(x){n[x.d]=1;});var c=Object.keys(n).length;$('pc-nst').textContent=c;
     $('pc-nst-s').textContent=c?'with an exact price that matches':'Try a broader filter';}
   function vcard(o){var v=o.v,S=studio(v.d),t=v.ti||((v.c?v.c+' — ':'')+label(D.types,v.t));
-    var attrs=v.em?' data-video="'+esc(v.em)+'" data-title="'+esc(t)+'" data-price="1" data-cursor="play"':'';
+    var attrs=(v.em?' data-video="'+esc(v.em)+'" data-title="'+esc(t)+'" data-price="1"':'')+' data-cursor="play"';
     var tagc=o.tag==='Not in our ranking'?' out':(o.tag==='Close to your budget'?' near':'');
     return '<article class="pc-vc">'+
       '<a class="pc-thumb" href="'+esc(v.u)+'" target="_blank" rel="noopener nofollow" data-studio="'+esc(S.n)+'"'+attrs+'>'+
