@@ -145,7 +145,11 @@
 
   /* ---------- tiles, accordion ---------- */
   document.querySelectorAll('.tilerow').forEach(function(row){var tiles=[].slice.call(row.children);
-    tiles.forEach(function(t){t.addEventListener('mouseenter',function(){tiles.forEach(function(x){x.classList.toggle('on',x===t);});});});});
+    var tm=null;function act(t){tiles.forEach(function(x){x.classList.toggle('on',x===t);});}
+    tiles.forEach(function(t){
+      t.addEventListener('mouseenter',function(){clearTimeout(tm);if(t.classList.contains('on'))return;tm=setTimeout(function(){act(t);},110);});
+      t.addEventListener('mouseleave',function(){clearTimeout(tm);});
+      t.addEventListener('focus',function(){clearTimeout(tm);act(t);});});});
   document.querySelectorAll('.acc').forEach(function(a){a.addEventListener('click',function(){a.setAttribute('aria-expanded',a.getAttribute('aria-expanded')!=='true');});});
 
   /* ---------- reveal on scroll ---------- */
