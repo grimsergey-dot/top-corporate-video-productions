@@ -151,9 +151,8 @@ section{margin-bottom:130px}
 .ftr a{display:block;color:#EDE7FF;text-decoration:none;font-size:14px;padding:5px 0}.ftr a:hover{color:#fff;text-decoration:underline}
 .ftr-b{max-width:1440px;margin:0 auto;padding:22px 64px 36px;border-top:1px solid #3A2770;font-size:13px;color:#B9A9FF;display:flex;justify-content:space-between;gap:24px}
 /* ===== v5 additions ===== */
-#rib-back,#rib-front{position:absolute;top:0;left:0;width:100%;pointer-events:none;overflow:visible}
-#rib-back{z-index:0}#rib-front{z-index:2}
-.rib path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+#ribbon{position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:0;overflow:visible}
+#ribbon-path{transition:none}
 #hero3d{position:absolute;inset:-40px -60px;}
 #hero3d canvas{display:block;width:100%!important;height:100%!important}
 #hero3d.nogl{background:radial-gradient(circle,rgba(124,92,255,.35) 0%,rgba(124,92,255,0) 60%)}
