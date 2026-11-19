@@ -14,7 +14,7 @@
   function leadersFor(v){var key=IND[v.ind]?'i:'+v.ind:(TKEY[v.cat]||'corporate'),lab=IND[v.ind]||TLAB[TKEY[v.cat]||'corporate'];
     var full=(D.lead[key]||D.lead.corporate||[]),list=[];
     var LP=(D.leadpos||{})[key]||{};full.forEach(function(d,i){if(d!==v.d&&st(d).e)list.push({d:d,n:LP[d]||i+1});});return{list:list.slice(0,3),full:list,label:lab};}
-  function popup(v){
+  function popup(v,a){
     var S=st(v.d),L=leadersFor(v),live=window.TCVP_BRIEF_LIVE===true,canOwn=!!S.e,t=v.t;
     var pr=v.p?money(v.p[0])+(v.p[1]&&v.p[1]!==v.p[0]?' – '+money(v.p[1]):''):'';
     var el=document.createElement('div');el.className='vinfo';
@@ -43,7 +43,9 @@
     el.addEventListener('click',function(e){var b=e.target.closest('.vi-preset');if(!b)return;var n=+b.getAttribute('data-n'),i=0;
       el.querySelectorAll('.vi-preset').forEach(function(x){x.classList.toggle('on',x===b);});
       L.full.forEach(function(o){var c=el.querySelector('input[name=studio][value="'+o.d+'"]');if(!c)return;c.checked=i<n;i++;c.dispatchEvent(new Event('change',{bubbles:true}));});});
+    if(window.tcvpShortlist){var ac=el.querySelector('.vi-actions'),im=a&&a.querySelector('img'),gov=String(v.d).indexOf('gov:')===0;
+      if(ac)ac.insertBefore(tcvpShortlist.button({k:'x:'+(a&&a.getAttribute('data-k')||v.em),t:t,c:v.c||'',d:gov?'':v.d,sn:S.n,th:im?im.getAttribute('src'):'',em:v.em||'',u:a?a.getAttribute('href'):''}),ac.firstChild);}
     window.tcvpModal.open(v.em||'',t,el);track('example_video_open',{studio:S.n});
   }
-  document.addEventListener('click',function(e){var a=e.target.closest('.ex-thumb');if(!a){var c=e.target.closest('.ex-vc,.tp-row');if(c&&!e.target.closest('a'))a=c.querySelector('.ex-thumb');}if(!a||!window.tcvpModal)return;var v=D.v[a.getAttribute('data-k')];if(!v)return;e.preventDefault();e.stopPropagation();popup(v);},true);
+  document.addEventListener('click',function(e){var a=e.target.closest('.ex-thumb');if(!a){var c=e.target.closest('.ex-vc,.tp-row');if(c&&!e.target.closest('a'))a=c.querySelector('.ex-thumb');}if(!a||!window.tcvpModal)return;var v=D.v[a.getAttribute('data-k')];if(!v)return;e.preventDefault();e.stopPropagation();popup(v,a);},true);
 })();

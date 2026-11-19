@@ -129,7 +129,7 @@
         .finally(function(){btn.disabled=false;try{turnstile.reset(slot.dataset.w);}catch(e){}});
     });
   }
-  window.tcvpBriefInit=initBrief;
+  window.tcvpBriefInit=initBrief;window.tcvpTsNeed=tsNeed;
   [].slice.call(document.querySelectorAll('.briefform')).forEach(initBrief);
   [].slice.call(document.querySelectorAll('.brief.folded')).forEach(function(sec){
     var b=sec.querySelector('.bf-unfold'),inn=sec.querySelector('.brief-in');
