@@ -629,3 +629,13 @@ img,svg,video,iframe{max-width:100%}
 @media (hover:hover) and (pointer:fine){.tp-play{display:grid}}
 @media (max-width:1180px){.tp-row{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px}}
 @media (max-width:820px){.tp-row{grid-template-columns:1fr;gap:16px}.tp-thumb{grid-column:auto}.tp-info{grid-column:auto}.tp-info h2{font-size:21px}.tp-thumb .tp-n{font-size:34px}.tp-play{width:54px;height:54px;margin:-27px 0 0 -27px}}
+
+/* letterbox zoom (see site.js) */
+.pc-thumb img,.tp-thumb img,.tp-win img,.tp-card-img img,.reel img,.thumb img{transform:scale(var(--z,1))}
+.pc-vc:hover .pc-thumb img{transform:scale(calc(var(--z,1)*1.04))}
+.tp-row:hover .tp-thumb img{transform:scale(calc(var(--z,1)*1.05))}
+.tp-win:hover img,.feat:hover .reel img{transform:scale(calc(var(--z,1)*1.04))}
+.thumb:hover img{transform:scale(calc(var(--z,1)*1.07))}
+
+.pc-vc,.ex-vc,.tp-row{cursor:pointer}
+.vi-noembed{display:block;background:#1C0A45;color:#EDE7FF;border-radius:16px;padding:26px 24px;margin-bottom:18px;font-size:15px;text-decoration:none}.vi-noembed b{color:#FFC94D}

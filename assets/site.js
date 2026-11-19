@@ -156,3 +156,7 @@
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
 })();
+/* cover zoom for letterboxed thumbnails: '#z=1.33' on the image URL -> --z */
+(function(){function ap(i){var m=/#z=([\d.]+)/.exec(i.getAttribute('src')||'');if(m)i.style.setProperty('--z',m[1]);}
+document.querySelectorAll('img[src*="#z="]').forEach(ap);
+new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.nodeType!==1)return;if(n.tagName==='IMG')ap(n);else if(n.querySelectorAll)n.querySelectorAll('img[src*="#z="]').forEach(ap);});});}).observe(document.documentElement,{childList:true,subtree:true});})();

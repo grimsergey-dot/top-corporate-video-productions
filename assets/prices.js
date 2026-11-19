@@ -101,7 +101,7 @@
       rows+='<details class="vi-more"><summary>Send to more studios in '+esc(L.label)+'</summary><div class="vi-presets" role="group" aria-label="How many studios">'+
         (function(){var N=L.full.length,ps=[3,5,10,15].filter(function(n){return n<=N;});if(ps[ps.length-1]<N&&N<15)ps.push(N);return ps.map(function(n){return '<button type="button" class="vi-preset'+(n===3?' on':'')+'" data-n="'+Math.min(n,cap)+'">'+(n===N&&[3,5,10,15].indexOf(n)<0?'All '+n:'Top '+n)+'</button>';}).join('');})()+'</div>'+
         extra.map(function(o){var s2=studio(o.d);return '<label><input type="checkbox" name="studio" value="'+esc(o.d)+'"> '+esc(s2.n)+' <em>#'+o.n+' in '+esc(L.label)+(s2.r<=20?' · ranked #'+s2.r+' overall':'')+'</em></label>';}).join('')+'</details>';}
-    el.innerHTML='<div class="vi-top"><div><div class="vi-price">'+esc(price(v))+'</div><div class="vi-basis">'+esc(CTX[v.ctx]||'Studio-stated price')+(v.pg?' · <a href="'+esc(v.pg)+'" target="_blank" rel="noopener nofollow">see source</a>':'')+'</div></div>'+
+    el.innerHTML=(v.em?'':'<a class="vi-noembed" href="'+esc(v.u)+'" target="_blank" rel="noopener nofollow">This video plays only on the studio’s own site — <b>watch it there ↗</b></a>')+'<div class="vi-top"><div><div class="vi-price">'+esc(price(v))+'</div><div class="vi-basis">'+esc(CTX[v.ctx]||'Studio-stated price')+(v.pg?' · <a href="'+esc(v.pg)+'" target="_blank" rel="noopener nofollow">see source</a>':'')+'</div></div>'+
       '<div class="vi-actions">'+(live&&(canOwn||L.list.length)?'<button type="button" class="btn btn-dark vi-open">Order a video like this</button>':'')+'<a class="btn btn-ghost" href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="prices-popup">'+esc(S.n)+' site ↗</a></div></div>'+
       '<div class="vi-title">'+esc(t)+'</div><div class="vi-meta">'+esc(label(D.types,v.t))+(v.ind?' · '+esc(IND_NAMES[v.ind]):'')+(v.y?' · '+v.y:'')+(v.c?' · client: '+esc(v.c):'')+'</div>'+
       '<div class="vi-studio">Made by <a href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="prices-popup">'+esc(S.n)+'</a>'+(S.r<=20?' · #'+S.r+' in the 2026 ranking':(S.out?' · not in our ranking':''))+(v.em?'':' · <a href="'+esc(v.u)+'" target="_blank" rel="noopener nofollow">watch on the studio’s site ↗</a>')+'</div>'+
@@ -120,7 +120,7 @@
       L.full.forEach(function(o){var c=el.querySelector('input[name=studio][value="'+o.d+'"]');if(!c)return;c.checked=i<n;i++;c.dispatchEvent(new Event('change',{bubbles:true}));});});
     window.tcvpModal.open(v.em||'',t,el);track('price_video_open',{studio:S.n,has_video:!!v.em});
   }
-  $('pc-videos').addEventListener('click',function(e){var a=e.target.closest('.pc-thumb');if(!a||!window.tcvpModal)return;var i=+a.getAttribute('data-i');var v=CUR_VIDEOS[i];if(!v)return;e.preventDefault();e.stopPropagation();popup(v);});
+  $('pc-videos').addEventListener('click',function(e){var c=e.target.closest('.pc-vc');if(!c||!window.tcvpModal)return;var ln=e.target.closest('a');if(ln&&!ln.classList.contains('pc-thumb'))return;var a=c.querySelector('.pc-thumb');if(!a)return;var i=+a.getAttribute('data-i');var v=CUR_VIDEOS[i];if(!v)return;e.preventDefault();e.stopPropagation();popup(v);});
   var CUR_VIDEOS=[];
 
   function render(){renderSummary();renderVideos();renderStudios();renderTable();}
