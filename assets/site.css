@@ -701,3 +701,5 @@ img,svg,video,iframe{max-width:100%}
 .mb-to input[type=checkbox]{width:18px;height:18px;margin:0;padding:0;flex:0 0 auto;accent-color:#5B3BEB}
 .mb-to .vi-more summary{font:600 14px Inter,sans-serif;color:#5B3BEB;cursor:pointer;margin:6px 0 10px;text-transform:none;letter-spacing:0}
 .mb-to .vi-presets{margin:8px 0 12px}
+
+@media (hover:hover) and (pointer:fine){.mb-play .tp-play,.bv-play .tp-play{display:none}.mb-play,.bv-play{cursor:none}}
