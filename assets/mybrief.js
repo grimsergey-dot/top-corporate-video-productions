@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded',function(){
     form.querySelectorAll('[data-a]').forEach(function(el){if(!el._set){el.value=a[el.getAttribute('data-a')]||el.getAttribute('data-pre')||'';el._set=1;}});
     ['name','company','email'].forEach(function(k){var el=form.elements[k];if(el&&!el._set){el.value=c[k]||'';el._set=1;}});
     form.querySelectorAll('.mb-chips[data-c]').forEach(function(g){var wh=(a[g.dataset.c]||'').split(', ').filter(Boolean);g.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',wh.indexOf(b.dataset.v)>=0);});});
-    recips();plain();
+    wSync();recips();plain();
   }
   function recips(){
     var d=data(),makers=[],seen={};
@@ -55,6 +55,23 @@ document.addEventListener('DOMContentLoaded',function(){
       var v=f.keys.map(function(k){return (a[k]||'').trim();}).filter(Boolean).join(' · ');L.push(f.h.toUpperCase()+': '+v);L.push('');});
     return L.join('\n').replace(/\n+$/,'')+'\n';}
   function plain(){var p=document.getElementById('bp-plain');if(p)p.textContent=txt();var n=document.getElementById('mb-refs-n');if(n){var k=data().items.length;n.textContent=k?k+' saved.':'None saved yet.';}}
+  /* evaluation criteria sliders: must total 100% */
+  function wBox(){return form.querySelector('.mb-w');}
+  function wSl(b){return [].slice.call(b.querySelectorAll('input[type=range]'));}
+  function wSum(b){return wSl(b).reduce(function(a,r){return a+(+r.value);},0);}
+  function wShow(b,save){var sum=wSum(b),h=b.querySelector('input[type=hidden]');
+    wSl(b).forEach(function(r){r.nextElementSibling.textContent=r.value+'%';r.style.setProperty('--p',(r.value/60*100)+'%');});
+    h.value=wSl(b).filter(function(r){return +r.value>0;}).sort(function(x,y){return y.value-x.value;}).map(function(r){return r.dataset.l+' '+r.value+'%';}).join(' · ');
+    var ok=sum===100;b.classList.toggle('ok',ok);b.classList.toggle('bad',!ok);b.querySelector('.mb-wsum').textContent=sum+'%';
+    b.querySelector('.mb-wmsg').textContent=ok?'✓ Adds up to 100%':(sum>100?'Over by '+(sum-100)+' points — lower some weights':(100-sum)+' points short — raise some weights');
+    b.querySelector('.mb-wbal').hidden=ok;if(save)saveForm();}
+  function wParse(b){var h=b.querySelector('input[type=hidden]'),t=h.value||'';if(!t)return;var m={};t.split(' · ').forEach(function(p){var x=/^(.*) (\d+)%$/.exec(p.trim());if(x)m[x[1]]=+x[2];});
+    if(!Object.keys(m).length)return;wSl(b).forEach(function(r){r.value=m[r.dataset.l]||0;});}
+  function wInit(){var b=wBox();if(!b||b._w)return;b._w=1;wSl(b).forEach(function(r){r.dataset.d=r.value;});
+    b.addEventListener('input',function(e){if(e.target.type==='range'){e.stopPropagation();wShow(b,true);}});
+    b.querySelector('.mb-wbal').addEventListener('click',function(){var R=wSl(b),s=wSum(b);if(!s){R.forEach(function(r){r.value=r.dataset.d;});}else{R.forEach(function(r){r.value=Math.round(r.value/s*100/5)*5;});var d=100-wSum(b);if(d){var big=R.reduce(function(a,r){return +r.value>+a.value?r:a;});big.value=Math.max(0,+big.value+d);}}wShow(b,true);});
+    b.querySelector('.mb-wrs').addEventListener('click',function(){wSl(b).forEach(function(r){r.value=r.dataset.d;});wShow(b,true);});}
+  function wSync(){var b=wBox();if(!b)return;wInit();wParse(b);wShow(b,false);}
   window.tcvpBriefText=txt;
   form.addEventListener('click',function(e){var b=e.target.closest('.mb-tipb');form.querySelectorAll('.mb-tip.open').forEach(function(t){if(!b||t!==b.parentNode){t.classList.remove('open');t.querySelector('.mb-tipb').setAttribute('aria-expanded','false');}});if(b){var o=b.parentNode.classList.toggle('open');b.setAttribute('aria-expanded',o);}});
   var cpb=document.getElementById('mb-copy');if(cpb)cpb.addEventListener('click',function(){saveForm();var t=txt();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){cpb.textContent='Copied ✓';setTimeout(function(){cpb.textContent='Copy brief as text';},1600);}).catch(function(){window.prompt('Copy your brief:',t);});track('brief_copy_text');});
@@ -69,6 +86,7 @@ document.addEventListener('DOMContentLoaded',function(){
   draw();
   if(window.tcvpTsNeed)tcvpTsNeed(form);
   form.addEventListener('submit',function(e){e.preventDefault();saveForm();
+    var wb=wBox();if(wb&&wSum(wb)!==100){var st0=form.querySelector('.bf-status');st0.textContent='Evaluation criteria must add up to 100% (now '+wSum(wb)+'%). Adjust the sliders or press “Balance to 100%”.';st0.className='bf-status err';wb.scrollIntoView({behavior:'smooth',block:'center'});return;}
     var d=data(),st=form.querySelector('.bf-status'),c=d.contact;
     if(!c.name||!c.company||!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(c.email||'')){st.textContent='Please fill in your name, company and a valid work email.';st.className='bf-status err';return;}
     var slot=form.querySelector('.cf-turnstile-slot'),token=(window.turnstile&&slot&&slot.dataset.w)?turnstile.getResponse(slot.dataset.w):'';
