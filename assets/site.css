@@ -813,3 +813,9 @@ img,svg,video,iframe{max-width:100%}
 .mb-wrs{margin-left:auto}
 @media (max-width:700px){.mb-wr{grid-template-columns:1fr 48px;gap:4px 10px}.mb-wr input[type=range]{grid-column:1/-1;order:3}.mb-wrs{margin-left:0}}
 #mb-form .mb-w .mb-wl{text-transform:none;letter-spacing:0;font:500 14.5px Inter,sans-serif;color:#1C0A45;display:block;margin:0}
+/* pop-up with info: keep the top reachable when content is taller than the screen (flex centering overflow) */
+#vmodal.has-info{justify-content:flex-start}
+#vmodal.has-info .vframe{margin-top:auto}
+#vmodal.has-info .vframe[hidden]+.vinfo{margin-top:auto}
+#vmodal.has-info .vinfo{margin-bottom:auto}
+#vmodal.has-info .vclose{position:fixed;z-index:2;background:rgba(18,6,46,.6)}
