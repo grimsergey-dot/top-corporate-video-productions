@@ -22,7 +22,7 @@
 
   /* ---------- videos: exact matches first, then labelled fallbacks; max 3 per studio up front ---------- */
   function videos(){
-    var s=st(),b=band(),R=D.videos.filter(function(v){return !v.out;}),O=D.videos.filter(function(v){return v.out;});
+    var s=st(),b=band(),R=D.videos.filter(function(v){return !v.out&&v.em;}),O=D.videos.filter(function(v){return v.out&&v.em;});  /* cards only for videos that play here */
     var T=function(v){return !s.type||v.t===s.type;},I=function(v){return !s.ind||v.ind===s.ind;};
     var byRank=function(a,c){return studio(a.d).r-studio(c.d).r||a.lo-c.lo;},byDist=function(a,c){return dist(a,b)-dist(c,b)||byRank(a,c);};
     var tiers=[
