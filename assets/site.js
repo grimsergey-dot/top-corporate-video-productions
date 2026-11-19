@@ -157,6 +157,6 @@
   document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
 })();
 /* cover zoom for letterboxed thumbnails: '#z=1.33' on the image URL -> --z */
-(function(){function ap(i){var m=/#z=([\d.]+)/.exec(i.getAttribute('src')||'');if(m)i.style.setProperty('--z',m[1]);}
+(function(){function ap(i){var s=i.getAttribute('src')||'',m=/#z=([\d.]+)/.exec(s),d=/[&#]dy=(-?[\d.]+)/.exec(s);if(m)i.style.setProperty('--z',m[1]);if(d)i.style.setProperty('--dy',d[1]+'%');}
 document.querySelectorAll('img[src*="#z="]').forEach(ap);
 new MutationObserver(function(ms){ms.forEach(function(m){m.addedNodes.forEach(function(n){if(n.nodeType!==1)return;if(n.tagName==='IMG')ap(n);else if(n.querySelectorAll)n.querySelectorAll('img[src*="#z="]').forEach(ap);});});}).observe(document.documentElement,{childList:true,subtree:true});})();
