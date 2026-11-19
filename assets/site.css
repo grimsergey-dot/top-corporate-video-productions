@@ -780,3 +780,19 @@ img,svg,video,iframe{max-width:100%}
 .mb-refs-note{margin:8px 0 0 36px;font-size:14px;color:#5B4C8A}
 .mb-foot #mb-copy{margin-left:10px}
 @media (max-width:700px){.mb-blk .half{grid-column:1/-1}.mb-tipc{left:auto;right:-10px;transform:none}.mb-tipc::after{left:auto;right:16px}.mb-tip:hover .mb-tipc,.mb-tip.open .mb-tipc{transform:none}.mb-foot #mb-copy{margin:10px 0 0}}
+/* RFP template page */
+.rf-formula{background:#fff;border-radius:22px;padding:24px 26px;margin-bottom:16px}
+.rf-formula h3{margin:0 0 4px;font-size:20px}
+.rf-bar{display:grid;grid-template-columns:220px 1fr 70px 90px;gap:14px;align-items:center;margin-top:12px;font-size:14.5px}
+.rf-bt{height:12px;background:#F1EDFF;border-radius:6px;overflow:hidden}.rf-bt i{display:block;height:100%;background:#5B3BEB;border-radius:6px}
+.rf-bv{font-weight:700;color:#1C0A45}.rf-bc{color:#7A6BA8;font-size:13px}
+.rf-note{margin:18px 0 0;font-size:15px}
+.rf-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.rf-card{background:#fff;border-radius:20px;padding:20px 22px}.rf-card b{font-size:28px;color:#5B3BEB;display:block;margin-bottom:6px}.rf-card p{margin:0;font-size:14.5px;line-height:1.55;color:#3D2C6B}
+.rf-recs{list-style:none;counter-reset:r;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rf-recs li{counter-increment:r;background:#fff;border-radius:20px;padding:22px 22px 22px 66px;position:relative}
+.rf-recs li::before{content:counter(r,decimal-leading-zero);position:absolute;left:22px;top:20px;font:600 22px 'Unbounded',Inter,sans-serif;color:#B9A9FF}
+.rf-recs h3{margin:0 0 6px;font-size:17px}.rf-recs p{margin:0;font-size:15px;line-height:1.55;color:#3D2C6B}
+.rf-meth{background:#fff;border-radius:22px;padding:24px 26px;font-size:15.5px;line-height:1.65;color:#2E2156}.rf-meth p{margin:0 0 12px}
+.rf-table td{font-size:13.5px;vertical-align:top}
+@media (max-width:900px){.rf-recs{grid-template-columns:1fr}.rf-bar{grid-template-columns:1fr 60px;gap:6px 10px}.rf-bt{grid-column:1/-1;order:3}.rf-bc{display:none}}

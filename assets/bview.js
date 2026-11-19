@@ -1,7 +1,7 @@
 /* Public brief page /b/?id=... — reads the brief from the Worker */
 document.addEventListener('DOMContentLoaded',function(){
   var API='https://tcvp-briefs.lava-media-usa.workers.dev', q=new URLSearchParams(location.search), id=q.get('id')||'';
-  var Q=[['goal','Goal',1],['audience','Audience',1],['story','Key message',1],['script','Script & voice-over',1],['length','Length'],['formats','Formats & cut-downs'],['where','Where it will be shown'],['assets','Assets we can provide',1],['budget','Budget'],['deadline','Deadline'],['musts','Must-haves & reviews',1]];
+  var Q=[['goal','Goal',1],['audience','Audience',1],['story','Key message',1],['script','Script & voice-over',1],['length','Length'],['formats','Formats & cut-downs'],['where','Where it will be shown'],['assets','Assets we can provide',1],['budget','Budget'],['deadline','Deadline'],['musts','Must-haves & reviews',1],['scope','Scope of work',1],['tender','Tender timeline',1],['submit','Proposals must include',1],['criteria','Evaluation criteria',1],['rights','Rights & delivery',1]];
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function $(i){return document.getElementById(i);}
   if(!/^[a-z0-9]{12}$/.test(id)){$('bv-co').textContent='This brief link is not valid';return;}
