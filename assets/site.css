@@ -762,3 +762,21 @@ img,svg,video,iframe{max-width:100%}
 @media (hover:hover) and (pointer:fine){.tp-play,.tp-win .tp-play{display:none!important}}
 .nav .navlink,.nav .sl-pill,.nav .btn{white-space:nowrap}
 @media (max-width:1380px){.nav{gap:20px}.nav .btn-sm[href="/methodology/"]{display:none}}
+/* brief form: numbered blocks with hints */
+.mb-blocks{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.mb-blk{border:1.5px solid #EEE9FF;border-radius:18px;padding:16px 18px;background:#FCFBFF}
+.mb-blk .mb-grid{margin-top:10px}
+.mb-blk .half{grid-column:span 1}.mb-blk .full{grid-column:1/-1}
+.mb-bh{display:flex;align-items:center;gap:10px}
+.mb-bn{font-size:18px;color:#B9A9FF;min-width:26px}
+.mb-bt{font:600 16px Inter,sans-serif;color:#1C0A45}
+.mb-tip{position:relative;display:inline-flex}
+.mb-tipb{width:22px;height:22px;border-radius:50%;border:0;background:#EAE4FF;color:#3A1F8F;font:700 12px Inter,sans-serif;cursor:pointer;display:grid;place-items:center;padding:0}
+.mb-tipb:hover,.mb-tip.open .mb-tipb{background:#1C0A45;color:#fff}
+.mb-tipc{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%) translateY(4px);width:300px;max-width:78vw;background:#1C0A45;color:#F1EDFF;border-radius:14px;padding:12px 14px;font:400 13.5px/1.5 Inter,sans-serif;box-shadow:0 14px 40px rgba(28,10,69,.3);opacity:0;visibility:hidden;transition:opacity .18s,transform .18s,visibility .18s;z-index:30;pointer-events:none}
+.mb-tipc em{display:block;margin-top:8px;font-style:normal;color:#B9A9FF;font-size:13px}
+.mb-tipc::after{content:"";position:absolute;left:50%;top:100%;margin-left:-6px;border:6px solid transparent;border-top-color:#1C0A45}
+.mb-tip:hover .mb-tipc,.mb-tip.open .mb-tipc,.mb-tipb:focus-visible+.mb-tipc{opacity:1;visibility:visible;transform:translateX(-50%)}
+.mb-refs-note{margin:8px 0 0 36px;font-size:14px;color:#5B4C8A}
+.mb-foot #mb-copy{margin-left:10px}
+@media (max-width:700px){.mb-blk .half{grid-column:1/-1}.mb-tipc{left:auto;right:-10px;transform:none}.mb-tipc::after{left:auto;right:16px}.mb-tip:hover .mb-tipc,.mb-tip.open .mb-tipc{transform:none}.mb-foot #mb-copy{margin:10px 0 0}}

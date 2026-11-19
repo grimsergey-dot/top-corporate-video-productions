@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded',function(){
   function bar(){var n=SL?SL.count():0;sb.hidden=!n||inView;sb.innerHTML='<b>'+n+'</b> saved · <span>Continue to your brief ↓</span>';}
   bar();
   /* copy plain template */
-  var cb=document.getElementById('bp-copybtn');if(cb)cb.addEventListener('click',function(){var t=document.getElementById('bp-plain').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){cb.textContent='Copied ✓';setTimeout(function(){cb.textContent='Copy template';},1600);}).catch(function(){var r=document.createRange();r.selectNodeContents(document.getElementById('bp-plain'));var s=getSelection();s.removeAllRanges();s.addRange(r);});track('brief_template_copy');});
+  var cb=document.getElementById('bp-copybtn');if(cb)cb.addEventListener('click',function(){var t=window.tcvpBriefText?window.tcvpBriefText():document.getElementById('bp-plain').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){cb.textContent='Copied ✓';setTimeout(function(){cb.textContent='Copy template';},1600);}).catch(function(){var r=document.createRange();r.selectNodeContents(document.getElementById('bp-plain'));var s=getSelection();s.removeAllRanges();s.addRange(r);});track('brief_template_copy');});
   syncChips();
   fetch(window.BP_POOL).then(function(r){return r.json();}).then(function(j){
     POOL=j.v.map(function(a){return {k:a[0],t:a[1],c:a[2],d:a[3],sn:a[4],r:a[5],th:a[6],em:a[7],u:a[8],cat:a[9],style:a[10],ind:a[11],y:a[12],lo:a[13],hi:a[14],b:a[15]};});
