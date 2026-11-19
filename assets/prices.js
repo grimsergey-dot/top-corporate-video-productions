@@ -2,7 +2,7 @@
 (function(){
   'use strict';
   var BUDGETS={lt5:[0,4999],'5-10':[5000,10000],'10-25':[10000,25000],'25-50':[25000,50000],'50-100':[50000,100000],'100p':[100000,Infinity]};
-  var CTX={'client review':'Client-stated cost (Clutch review)','package':'Package price','case study':'Case-study price','blog cost breakdown':'Cost breakdown','service page':'Service page price'};
+  var CTX={'clutch band':'Budget band from a Clutch review · not used in our price statistics','client review':'Client-stated cost (Clutch review)','package':'Package price','case study':'Case-study price','blog cost breakdown':'Cost breakdown','service page':'Service page price'};
   var MIN_VIDEOS=10,PER_STUDIO=3,PAGE=12;
   var D=null,form=document.getElementById('pc-form');if(!form)return;
   var $=function(id){return document.getElementById(id);};
@@ -10,7 +10,7 @@
   function track(n,p){try{if(window.gtag)gtag('event',n,p||{});}catch(e){}}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function money(n){if(n==null||!isFinite(n))return '';if(n>=1e6)return '$'+(n/1e6).toFixed(n%1e6?1:0)+'M';if(n>=1000){var k=n/1000;return '$'+(k>=100?Math.round(k):(+k.toFixed(1)).toString())+'k';}return '$'+Math.round(n);}
-  function price(x){return x.hi?money(x.lo)+'–'+money(x.hi):money(x.lo);}
+  function price(x){if(x.b)return x.b;return x.hi?money(x.lo)+'–'+money(x.hi):money(x.lo);}
   function mid(x){return x.hi?(x.lo+x.hi)/2:x.lo;}
   function st(){var f=new FormData(form);return{type:f.get('type')||'',ind:f.get('ind')||'',budget:f.get('budget')||''};}
   function band(){var s=st();return s.budget?BUDGETS[s.budget]:null;}
