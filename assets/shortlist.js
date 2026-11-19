@@ -2,7 +2,7 @@
 (function(){
   var KEY='tcvp_brief_v1',SEEN='tcvp_brief_guide';
   function load(){try{var d=JSON.parse(localStorage.getItem(KEY)||'{}');d.items=d.items||[];d.answers=d.answers||{};d.contact=d.contact||{};return d;}catch(e){return {items:[],answers:{},contact:{}};}}
-  function save(d){try{localStorage.setItem(KEY,JSON.stringify(d));}catch(e){}render();}
+  function save(d){try{localStorage.setItem(KEY,JSON.stringify(d));}catch(e){}render();try{document.dispatchEvent(new CustomEvent('tcvp:brief'));}catch(e){}}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function track(e,p){try{window.gtag&&gtag('event',e,p||{});}catch(_){}}
   var API={
@@ -25,12 +25,13 @@
     if(nav&&!pill){pill=document.createElement('a');pill.href='/my-brief/';pill.className='sl-pill';pill.innerHTML='<span class="sl-ic" aria-hidden="true">♡</span> My brief <b>0</b>';var m=nav.querySelector('.btn');nav.insertBefore(pill,m||null);}
     if(!fab){fab=document.createElement('a');fab.href='/my-brief/';fab.className='sl-fab';fab.innerHTML='<span aria-hidden="true">♡</span> My brief <b>0</b>';document.body.appendChild(fab);}
   }
-  function render(){mk();var n=load().items.length,onPage=location.pathname.indexOf('/my-brief/')===0;
+  function render(){mk();var n=load().items.length,onPage=location.pathname.indexOf('/my-brief/')===0||!!window.TCVP_INPAGE_BRIEF;
     [pill,fab].forEach(function(el){if(!el)return;el.querySelector('b').textContent=n;el.hidden=!n&&!onPage;});
-    if(fab)fab.classList.toggle('sl-hide',onPage);}
+    if(fab)fab.classList.toggle('sl-hide',onPage);if(pill&&window.TCVP_INPAGE_BRIEF)pill.href='#brief';}
   function bump(){[pill,fab].forEach(function(el){if(!el)return;el.classList.remove('sl-bump');void el.offsetWidth;el.classList.add('sl-bump');});}
   function first(){
     try{if(localStorage.getItem(SEEN))return;localStorage.setItem(SEEN,'1');}catch(e){return;}
+    if(window.TCVP_INPAGE_BRIEF)return; /* brief template pages show the brief form on the page itself */
     var g=document.createElement('div');g.className='sl-guide';g.setAttribute('role','dialog');g.setAttribute('aria-label','How My brief works');
     g.innerHTML='<div class="sl-g-in"><div class="sl-g-h">Saved to your brief ♡</div><ol><li><b>Save</b> every video you like — from the rankings, best-of lists, examples and prices.</li><li>Open <b>My brief</b> and note what you like in each one.</li><li>Answer a few short questions and get a ready <b>brief page &amp; PDF</b> — or send it to top studios.</li></ol><div class="sl-g-b"><a class="btn btn-dark btn-sm" href="/my-brief/">Open My brief</a><button type="button" class="btn btn-ghost btn-sm sl-g-x">Keep browsing</button></div></div>';
     document.body.appendChild(g);

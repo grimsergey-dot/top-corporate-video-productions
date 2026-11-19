@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded',function(){
     to.querySelectorAll('label.mb-st input').forEach(function(c){var mk=/made /.test(c.parentNode.textContent);if(mk)return;c.checked=i<n;i++;});label();});
   vids.addEventListener('click',function(e){var rm=e.target.closest('.mb-rm');if(rm){saveForm();SL.remove(rm.dataset.k);draw();return;}
     var a=e.target.closest('.mb-play');if(a&&window.tcvpModal){var x=data().items[+a.dataset.i];if(x&&x.em){e.preventDefault();tcvpModal.open(x.em,x.t);}}});
+  document.addEventListener('tcvp:brief',function(){if(!form.hidden)saveForm();draw();});
   draw();
   if(window.tcvpTsNeed)tcvpTsNeed(form);
   form.addEventListener('submit',function(e){e.preventDefault();saveForm();
