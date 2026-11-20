@@ -2,7 +2,7 @@
 (function(){
   'use strict';
   var BUDGETS={lt5:[0,4999],'5-10':[5000,10000],'10-25':[10000,25000],'25-50':[25000,50000],'50-100':[50000,100000],'100p':[100000,Infinity]};
-  var CTX={'clutch band':'Budget band from a Clutch review · not used in our price statistics','client review':'Client-stated cost (Clutch review)','package':'Package price','case study':'Case-study price','blog cost breakdown':'Cost breakdown','service page':'Service page price'};
+  var CTX={'government contract':'Public government contract · not used in our corporate price statistics','clutch band':'Budget band from a Clutch review · not used in our price statistics','client review':'Client-stated cost (Clutch review)','package':'Package price','case study':'Case-study price','blog cost breakdown':'Cost breakdown','service page':'Service page price'};
   var MIN_VIDEOS=10,PER_STUDIO=3,PAGE=12;
   var D=null,form=document.getElementById('pc-form');if(!form)return;
   var $=function(id){return document.getElementById(id);};
@@ -22,7 +22,7 @@
 
   /* ---------- videos: exact matches first, then labelled fallbacks; max 3 per studio up front ---------- */
   function videos(){
-    var s=st(),b=band(),R=D.videos.filter(function(v){return !v.out&&v.em;}),O=D.videos.filter(function(v){return v.out&&v.em;});  /* cards only for videos that play here */
+    var s=st(),b=band(),R=D.videos.filter(function(v){return (!v.out||v.g)&&v.em&&!v.o;}),O=D.videos.filter(function(v){return v.out&&!v.g&&v.em&&!v.o;});  /* o: made before 2021, hidden (kept in stats); g: government contract */  /* cards only for videos that play here */
     var T=function(v){return !s.type||v.t===s.type;},I=function(v){return !s.ind||v.ind===s.ind;};
     var byRank=function(a,c){return studio(a.d).r-studio(c.d).r||a.lo-c.lo;},byDist=function(a,c){return dist(a,b)-dist(c,b)||byRank(a,c);};
     var tiers=[
@@ -36,15 +36,15 @@
     function studiosIn(){var m={};out.forEach(function(o){m[o.v.d]=1;});return Object.keys(m).length;}
     tiers.forEach(function(t,ti){
       if(ti>0&&out.length>=MIN_VIDEOS&&studiosIn()>=4)return;   /* fallbacks only while fewer than 10 videos or 4 studios */
-      var q={},order=[];t[0].forEach(function(v){var k=v.d+'|'+v.u;if(seen[k])return;seen[k]=1;if(!q[v.d]){q[v.d]=[];order.push(v.d);}q[v.d].push(v);});
+      var q={},order=[];t[0].forEach(function(v){var k=v.d+'|'+v.u;if(seen[k])return;seen[k]=1;var g=v.g?'~gov':v.d;if(!q[g]){q[g]=[];order.push(g);}q[g].push(v);});  /* government contracts rotate as one group */
       var key=(ti===0||!b)?function(v){return v.lo;}:function(v){return dist(v,b);};  /* in budget: cheapest first; fallbacks: closest to the budget first */
-      order.forEach(function(d){q[d].sort(function(a,c){return key(a)-key(c);});});order.sort(function(a,c){return key(q[a][0])-key(q[c][0]);});
+      order.forEach(function(d){q[d].sort(function(a,c){return key(a)-key(c);});});order.sort(function(a,c){return ((a==='~gov')-(c==='~gov'))||key(q[a][0])-key(q[c][0]);});
       for(var round=0,more=true;more;round++){more=false;order.forEach(function(d){var v=q[d][round];if(!v)return;more=true;  /* round-robin across studios */
         var o={v:v,tag:t[1]};if((cnt[d]||0)<PER_STUDIO){cnt[d]=(cnt[d]||0)+1;out.push(o);}else rest.push(o);});}
     });
     return out.concat(rest);}
   function pool(){var s=st(),b=band();   /* ranked items matching all filters: videos + package prices */
-    return D.videos.filter(function(v){return !v.out&&(!s.type||v.t===s.type)&&(!s.ind||v.ind===s.ind)&&inBand(v,b);})
+    return D.videos.filter(function(v){return !v.out&&!v.b&&!v.g&&(!s.type||v.t===s.type)&&(!s.ind||v.ind===s.ind)&&inBand(v,b);})
       .concat(D.prices.filter(function(p){return (!s.type||p.t===s.type)&&(!s.ind||p.ind===s.ind||(p.ind==null&&studio(p.d).i.indexOf(s.ind)>=0))&&inBand(p,b);}));}
 
   /* ---------- rendering ---------- */
@@ -54,9 +54,9 @@
     if(P.length){var lo=Math.min.apply(null,P.map(function(x){return x.lo;})),hi=Math.max.apply(null,P.map(function(x){return x.hi||x.lo;}));$('pc-rng').textContent=lo===hi?money(lo):money(lo)+'–'+money(hi);}else $('pc-rng').textContent='—';
     var n={};P.forEach(function(x){n[x.d]=1;});var c=Object.keys(n).length;$('pc-nst').textContent=c;
     $('pc-nst-s').textContent=c?'with an exact price that matches':'Try a broader filter';}
-  function vcard(o,i){var v=o.v,S=studio(v.d),t=v.ti||((v.c?v.c+' — ':'')+label(D.types,v.t));
+  function vcard(o,i){if(o.v.g)o={v:o.v,tag:'Government contract'};var v=o.v,S=studio(v.d),t=v.ti||((v.c?v.c+' — ':'')+label(D.types,v.t));
     var attrs=(v.em?' data-video="'+esc(v.em)+'" data-title="'+esc(t)+'" data-price="1"':'')+' data-cursor="play"';
-    var tagc=o.tag==='Not in our ranking'?' out':(o.tag==='Close to your budget'?' near':'');
+    var tagc=o.tag==='Government contract'?' gov':o.tag==='Not in our ranking'?' out':(o.tag==='Close to your budget'?' near':'');
     return '<article class="pc-vc">'+
       '<a class="pc-thumb" href="'+esc(v.u)+'" target="_blank" rel="noopener nofollow" data-i="'+i+'" data-studio="'+esc(S.n)+'"'+attrs+'>'+
       (v.th?'<img src="'+esc(v.th)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">':'')+
@@ -64,7 +64,7 @@
       (o.tag?'<span class="pc-tag'+tagc+'">'+esc(o.tag)+'</span>':'')+'</a>'+
       '<div class="pc-vb"><div class="pc-price">'+esc(price(v))+'</div><div class="pc-basis">'+esc(CTX[v.ctx]||'Studio-stated price')+(v.pg?' · <a href="'+esc(v.pg)+'" target="_blank" rel="noopener nofollow">source</a>':'')+'</div>'+
       '<h3>'+esc(t)+'</h3><div class="pc-meta">'+esc(label(D.types,v.t))+(v.ind?' · '+esc(label(D.inds,v.ind)):'')+(v.y?' · '+v.y:'')+'</div>'+
-      '<a class="pc-by" href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="prices-video">'+esc(S.n)+(S.r<=20?' <em>#'+S.r+'</em>':'')+' ↗</a></div></article>';}
+      (S.u?'<a class="pc-by" href="'+esc(S.u)+'" target="_blank" rel="noopener" data-studio="'+esc(S.n)+'" data-place="prices-video">'+esc(S.n)+(S.r<=20?' <em>#'+S.r+'</em>':'')+' ↗</a>':'<span class="pc-by">'+esc(S.n)+'</span>')+'</div></article>';}
   function renderVideos(){var list=videos(),box=$('pc-videos');
     if(!list.length){box.innerHTML='<div class="pc-empty-box">No priced videos for this combination yet. We add new ones every week.</div>';$('pc-videos-more').hidden=true;return;}
     CUR_VIDEOS=list.slice(0,lim.v).map(function(o){return o.v;});

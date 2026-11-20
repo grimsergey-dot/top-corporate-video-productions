@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded',function(){
     if(toks.length){var h=(x.t+' '+x.c+' '+x.sn).toLowerCase();if(!toks.every(function(t){return h.indexOf(t)>=0;}))return false;}
     return true;}
   function hsh(t){var h=2166136261;for(var i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
-  function mix(L){var by={},ord=[];L.slice().sort(function(a,b){return ((b.y||0)-(a.y||0))||(a.r-b.r);}).forEach(function(x){if(!by[x.d]){by[x.d]=[];ord.push(x.d);}by[x.d].push(x);});
+  function mix(L){var by={},ord=[];L.slice().sort(function(a,b){return ((b.y||0)-(a.y||0))||(a.r-b.r);}).forEach(function(x){var g=x.g?'~gov':x.d;if(!by[g]){by[g]=[];ord.push(g);}by[g].push(x);});  /* all government-contract videos rotate as one group */
     ord.sort(function(a,b){return hsh('bp'+a)-hsh('bp'+b);});var out=[],i=0,left=L.length;while(out.length<left){ord.forEach(function(d){if(by[d][i])out.push(by[d][i]);});i++;}return out;}
   function sorted(L){var s=so.value;if(s==='mix')return mix(L);varP=function(x){return x.lo?(x.hi?(x.lo+x.hi)/2:x.lo):null;};
     return L.slice().sort(function(a,b){
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded',function(){
     return '<article class="pc-vc bp-vc" data-k="'+esc(x.k)+'"><a class="pc-thumb bp-thumb" href="'+esc(x.u)+'" target="_blank" rel="noopener nofollow" data-cursor="play">'+(x.th?'<img src="'+esc(x.th)+'" alt="'+esc(x.t)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">':'')+
       '<span class="pc-play" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg></span>'+(STY[x.style]?'<span class="pc-tag">'+STY[x.style]+'</span>':'')+'</a>'+
       '<div class="pc-vb"><h3>'+esc(x.t)+'</h3><div class="pc-meta">'+(x.c?'Client: '+esc(x.c):'')+(x.ind&&IND[x.ind]?(x.c?' · ':'')+IND[x.ind]:'')+(x.y?' · '+x.y:'')+'</div>'+
-      (x.lo?'<div class="bp-price">Cost: '+(x.b?esc(x.b):money(x.lo)+(x.hi&&x.hi!==x.lo?' – '+money(x.hi):''))+'</div>':'')+
+      (x.lo?'<div class="bp-price">'+(x.b?'Clutch budget band: '+esc(x.b):(x.g?'Government contract: ':'Cost: ')+money(x.lo)+(x.hi&&x.hi!==x.lo?' – '+money(x.hi):''))+'</div>':'')+
       '<div class="pc-by">'+esc(x.sn)+(x.r<=20?' <em>#'+x.r+'</em>':'')+'</div>'+
       '<button type="button" class="bp-save'+(sv?' on':'')+'" aria-pressed="'+!!sv+'">'+(sv?'<span aria-hidden="true">✓</span> Saved':'<span aria-hidden="true">♡</span> Save to brief')+'</button></div></article>';}
   var cur=[];
@@ -70,6 +70,6 @@ document.addEventListener('DOMContentLoaded',function(){
   var cb=document.getElementById('bp-copybtn');if(cb)cb.addEventListener('click',function(){var t=window.tcvpBriefText?window.tcvpBriefText():document.getElementById('bp-plain').textContent;(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){cb.textContent='Copied ✓';setTimeout(function(){cb.textContent='Copy template';},1600);}).catch(function(){var r=document.createRange();r.selectNodeContents(document.getElementById('bp-plain'));var s=getSelection();s.removeAllRanges();s.addRange(r);});track('brief_template_copy');});
   syncChips();
   fetch(window.BP_POOL).then(function(r){return r.json();}).then(function(j){
-    POOL=j.v.map(function(a){return {k:a[0],t:a[1],c:a[2],d:a[3],sn:a[4],r:a[5],th:a[6],em:a[7],u:a[8],cat:a[9],style:a[10],ind:a[11],y:a[12],lo:a[13],hi:a[14],b:a[15]};});
+    POOL=j.v.map(function(a){return {k:a[0],t:a[1],c:a[2],d:a[3],sn:a[4],r:a[5],th:a[6],em:a[7],u:a[8],cat:a[9],style:a[10],ind:a[11],y:a[12],lo:a[13],hi:a[14],b:a[15],g:a[16]};});
     POOL.forEach(function(x){byK[x.k]=x;});draw(true);}).catch(function(){});
 });
